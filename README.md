@@ -14,3 +14,5 @@ Kepler is a desktop-based application designed for amateur astronomy enthusiasts
 - Command to install a library: `pip install library-name`
 - Command to generate or update the requirements.txt file: `pip freeze > requirements.txt`
 - Command to install the dependencies of the requirements.txt file: `pip install -r requirements.txt`
+
+Hello
