@@ -40,4 +40,14 @@ You can also use the docker desktop interface to access the terminal visually.
 - To populate the DB
 `docker-compose exec api python manage.py migrate`
 
+## Access the DB
+To view the tables esc... you can open up the console by typing the following in your terminal
+`docker-compose exec db psql -U postgres -d postgres`
+
+### Basic Postgres
+
+- `\dt` displays tables
+
+- Normal SQL statements should work as expected
+
 
