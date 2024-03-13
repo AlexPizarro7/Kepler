@@ -50,4 +50,6 @@ To view the tables esc... you can open up the console by typing the following in
 
 - Normal SQL statements should work as expected
 
+to get out of a query type: `:q`
+
 
