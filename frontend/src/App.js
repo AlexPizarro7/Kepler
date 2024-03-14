@@ -5,8 +5,7 @@ function App() {
   const [currentTime, setCurrentTime] = useState(0);
   const [currentDate, setCurrentDate] = useState(0);
   useEffect(() => {
-  fetch(' http://127.0.0.1:8000/').then(res => res.json()).then(data => {
-      console.log(data);
+  fetch('127.0.0.1/').then(res => res.json()).then(data => {
       setCurrentTime(data.time);
       setCurrentDate(data.date);
     });
@@ -15,7 +14,6 @@ function App() {
     <div className="App">
       <header className="App-header">
       <p>The date is {currentDate} and the time is {currentTime}.</p> <br/>
-
       </header>
     </div>
   );

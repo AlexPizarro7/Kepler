@@ -11,4 +11,5 @@ def moon_phase(year, month, day):
     sun = get_sun(date)
     elongation = sun.separation(moon)
     phase_angle = np.arccos(np.clip(np.cos(elongation), -1, 1)) * u.deg
+    
     return phase_angle
