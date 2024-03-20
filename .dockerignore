@@ -3,3 +3,6 @@
 .git
 .gitignore
 /api/.venv
+/frontend/node_modules
+/frontend/.git
+/frontend/.gitignore
