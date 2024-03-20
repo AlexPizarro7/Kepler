@@ -1,5 +1,7 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
+api/astronomy/__pycache__/
+api/backend/__pycache__/
 *.py[cod]
 *$py.class
 
