@@ -10,54 +10,50 @@ function Header() {
     }
 
     return (
-        <div className="Header-nav">
-            <div className="flex flex-row p-5">
-                <div className="basis-1/4">
-                    <a className="text-6xl font-bold" href="/">Kepler.</a>
-                </div>
-                <div className="navigation">
-                    <ul>
-                        <li>Home</li>
-                        <li>Calendar</li>
-                        <li>My Account</li>
-                    </ul>
-                </div>
-                <div className="hamburger" onClick={toggleHamburger}>
+        <div className="header-nav Z-0">
+            <div className=" navigation flex flex-row p-5 w-full h-20 bg-black fixed top-0">
+                <a className="text-6xl h-20 font-bold fixed top-0" href="/">Kepler.</a>
+                <div className="hamburger mt-5 right-10 top-0" onClick={toggleHamburger}>
                     <Hamburger />
+                </div>
+                <div className="menu end-0">
+                    <ul>
+                        <li>
+                            <a href="/">Calendar</a>
+                        </li>
+                        <li>
+                            <a href="/faq">FAQ</a>
+                        </li>
+                        <li>
+                            <a href="/logi">Login/Signup</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
 
             <style jsx>{`
-        .navigation{
-            width: 100%;
-            height:50px;
-        }
-        .navigation ul{
-            display: flex;
-            flex-wrap: wrap;
-            float: right;
-            margin: 20 0px;
-            padding: 0 25px;
-        }
 
-        .navigation ul {
+        .menu {
             display: ${hamburgerOpen ? 'inline' : 'none'};
             background-color: black;
-            height: 100vh;
-            width: 50vw;
-            margin-top: 50px;
-            position: absolute;
+            height: 100%;
+            width: 40vw;
+            margin-top: 40px;
+            position: fixed;
         }
 
-        .navigation ul li {
+        .menu li {
             list-style-type: none;
-            padding-right: 10px;
         }
+
         .hamburger{
-            display: flex;
-            z-index: 10;
+            position: fixed;
+            .burger {
+                background-color: ${hamburgerOpen ? 'grey' : 'white'};
+            }
         }
-    `}</style>
+    `}
+            </style>
         </div>
     )
 }
