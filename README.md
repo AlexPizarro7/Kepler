@@ -60,7 +60,7 @@ to get out of a query type: `:q`
 
 - Starts the containers on your machine `docker-compose up -d` database, API, web server. Basically executes the virtual machine. 
 
-- In order to test the functions only, do `docker-compose exec api python manage.py test`
+- In order to test the functions only, do `docker-compose exec api python manage.py test` if doing on command prompt. If you are doing it on Docker directly, then do `python manage.py test`
 
 -If you are going to add new libraries, don't do it on the computer, do it on the virtual machine such as under 'Exec' in the Docker app, and be sure to update the requirements.txt file. Make sure it matches the machine matches the local, and it should after running the command. 
 

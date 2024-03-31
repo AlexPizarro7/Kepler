@@ -45,10 +45,17 @@ def get_timezone(latitude, longitude):
 
 def calculate_sunset(year, month, day, latitude, longitude):
     """
-    Calculates the sunset time for a given location and date.
+    Calculate and return the local sunset time for a specified date and location.
 
-    ... [rest of your existing parameters and docstring]
+    Parameters:
+    - year (int): Year of the date to calculate the sunset.
+    - month (int): Month of the date (1-12).
+    - day (int): Day of the date (1-31).
+    - latitude (float): Latitude of the location in degrees.
+    - longitude (float): Longitude of the location in degrees.
 
+    Returns:
+    - str: Local sunset time in 'YYYY-MM-DD HH:MM:SS' format, or an error message if not found.
     """
     time_zone = get_timezone(latitude, longitude)
     if not time_zone:
