@@ -14,6 +14,7 @@ packaging==23.2
 psycopg2==2.9.9
 pycparser==2.22
 pyerfa==2.0.1.1
+pytz==2024.1
 PyYAML==6.0.1
 setuptools==69.1.1
 sgp4==2.23
