@@ -4,35 +4,38 @@ from astronomy.views import *
 
 class AstronomyTests(TestCase):
 
-    def test_sunset_calculation_and_conversion(self):
-        # Known location and date
-        city = "Kathmandu"
-        country = "Nepal"
-        year, month, day = 2024, 4, 1
+    def test_mars_rise_and_set_times_in_canberra(self):
+        # Location and date
+        city = "Canberra"
+        country = "Australia"
+        year, month, day = 2024, 4, 1  # April 1, 2024
 
-        # Step 1: Get coordinates
+        # Get coordinates
         locations = get_coordinates(city, country)
-        self.assertIsNotNone(locations, "Failed to retrieve coordinates.")
-        self.assertTrue(len(locations) > 0, "No locations found.")
+        self.assertTrue(locations, "Failed to retrieve coordinates.")
+        selected_location = locations[0]  # Using the first location
 
-        # Assuming the first location is the correct one
-        selected_location = locations[0]
+        # Calculate Mars rise and set times in UTC
+        mars_rise_utc = calculate_planetrise_utc(
+            'Mars', year, month, day, selected_location.latitude, selected_location.longitude)
+        mars_set_utc = calculate_planetset_utc(
+            'Mars', year, month, day, selected_location.latitude, selected_location.longitude)
 
-        # Step 2: Calculate sunset in UTC
-        sunset_utc = calculate_sunset_utc(
-            year, month, day, selected_location.latitude, selected_location.longitude)
-        self.assertIsNotNone(sunset_utc, "Failed to calculate sunset in UTC.")
-        print(f"Sunset time in UTC for {city}, {country} on {year}-{month:02d}-{day:02d}: "
-              f"{sunset_utc.strftime('%H:%M:%S')} UTC")
-
-        # Step 3: Convert UTC sunset time to local time
+        # Convert to local time
         time_zone_name = get_timezone(
             selected_location.latitude, selected_location.longitude)
-        self.assertIsNotNone(time_zone_name, "Failed to retrieve timezone.")
+        self.assertTrue(time_zone_name, "Failed to retrieve timezone.")
 
-        sunset_local = convert_utc_to_local(
-            sunset_utc, time_zone_name, year, month, day)
-        self.assertIsNotNone(
-            sunset_local, "Failed to convert UTC time to local time.")
-        print(f"Sunset in {city}, {country} on {year}-{month:02d}-{day:02d} "
-              f"will be at {sunset_local.strftime('%I:%M %p')} (local time).")
+        for rise_time in mars_rise_utc:
+            mars_rise_local = convert_utc_to_local(
+                rise_time, time_zone_name, year, month, day)
+            print(f"Mars rise time in {city} on {year}-{month:02d}-{day:02d}: {mars_rise_local.strftime(
+                '%Y-%m-%d %I:%M %p')} (local time), {rise_time.strftime('%Y-%m-%d %H:%M:%S')} UTC")
+
+        for set_time in mars_set_utc:
+            mars_set_local = convert_utc_to_local(
+                set_time, time_zone_name, year, month, day)
+            print(f"Mars set time in {city} on {year}-{month:02d}-{day:02d}: {mars_set_local.strftime(
+                '%Y-%m-%d %I:%M %p')} (local time), {set_time.strftime('%Y-%m-%d %H:%M:%S')} UTC")
+
+# Note: Run this test to get the rise and set times of Mars for Canberra on April 1, 2024.

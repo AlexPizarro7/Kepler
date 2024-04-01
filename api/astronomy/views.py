@@ -91,6 +91,132 @@ def calculate_sunset_utc(year, month, day, latitude, longitude):
     return None
 
 
+def calculate_planetrise_utc(planet_name, year, month, day, latitude, longitude):
+    """
+    Calculate and return the planetrise times in UTC for a specified date, location, and planet.
+
+    Parameters:
+    - planet_name (str): Name of the planet (e.g., 'Mars', 'Jupiter').
+    - year (int): Year of the date.
+    - month (int): Month of the date.
+    - day (int): Day of the date.
+    - latitude (float): Latitude of the location.
+    - longitude (float): Longitude of the location.
+
+    Returns:
+    - list: List of planetrise times in UTC.
+    """
+    load = Loader('~/.skyfield-data')
+    ts = load.timescale()
+    eph = load('de421.bsp')
+    planet = eph[planet_name]
+
+    observer = eph['earth'] + \
+        Topos(latitude_degrees=latitude, longitude_degrees=longitude)
+    t0 = ts.utc(year, month, day)
+    t1 = ts.utc(year, month, day + 1)
+
+    t, _ = almanac.find_risings(observer, planet, t0, t1)
+    return [ti.utc_datetime() for ti in t]
+
+
+def calculate_planetset_utc(planet_name, year, month, day, latitude, longitude):
+    """
+    Calculate and return the planetset times in UTC for a specified date, location, and planet.
+
+    Parameters:
+    - planet_name (str): Name of the planet (e.g., 'Mars', 'Jupiter').
+    - year (int): Year of the date.
+    - month (int): Month of the date.
+    - day (int): Day of the date.
+    - latitude (float): Latitude of the location.
+    - longitude (float): Longitude of the location.
+
+    Returns:
+    - list: List of planetset times in UTC.
+    """
+    load = Loader('~/.skyfield-data')
+    ts = load.timescale()
+    eph = load('de421.bsp')
+    planet = eph[planet_name]
+
+    observer = eph['earth'] + \
+        Topos(latitude_degrees=latitude, longitude_degrees=longitude)
+    t0 = ts.utc(year, month, day)
+    t1 = ts.utc(year, month, day + 1)
+
+    t, _ = almanac.find_settings(observer, planet, t0, t1)
+    return [ti.utc_datetime() for ti in t]
+
+
+def calculate_moonrise_utc(year, month, day, latitude, longitude):
+    """
+    Calculate and return the moonrise times in UTC for a specified date and location.
+
+    Parameters:
+    - year (int): Year of the date.
+    - month (int): Month of the date.
+    - day (int): Day of the date.
+    - latitude (float): Latitude of the location.
+    - longitude (float): Longitude of the location.
+
+    Returns:
+    - list: List of moonrise times in UTC. Each entry is a datetime object.
+    """
+    load = Loader('~/.skyfield-data')
+    ts = load.timescale()
+    eph = load('de421.bsp')
+    moon = eph['moon']
+
+    observer = eph['earth'] + \
+        Topos(latitude_degrees=latitude, longitude_degrees=longitude)
+
+    # Set the time range for the specified day
+    t0 = ts.utc(year, month, day)
+    t1 = ts.utc(year, month, day + 1)
+
+    # Find moonrise times
+    t, y = almanac.find_risings(observer, moon, t0, t1)
+
+    # Filter out the times when the moonrise actually happens
+    moonrise_times = [ti.utc_datetime() for ti, event in zip(t, y) if event]
+    return moonrise_times
+
+
+def calculate_moonset_utc(year, month, day, latitude, longitude):
+    """
+    Calculate and return the moonset times in UTC for a specified date and location.
+
+    Parameters:
+    - year (int): Year of the date.
+    - month (int): Month of the date.
+    - day (int): Day of the date.
+    - latitude (float): Latitude of the location.
+    - longitude (float): Longitude of the location.
+
+    Returns:
+    - list: List of moonset times in UTC. Each entry is a datetime object.
+    """
+    load = Loader('~/.skyfield-data')
+    ts = load.timescale()
+    eph = load('de421.bsp')
+    moon = eph['moon']
+
+    observer = eph['earth'] + \
+        Topos(latitude_degrees=latitude, longitude_degrees=longitude)
+
+    # Set the time range for the specified day
+    t0 = ts.utc(year, month, day)
+    t1 = ts.utc(year, month, day + 1)
+
+    # Find moonset times
+    t, y = almanac.find_settings(observer, moon, t0, t1)
+
+    # Filter out the times when the moonset actually happens
+    moonset_times = [ti.utc_datetime() for ti, event in zip(t, y) if event]
+    return moonset_times
+
+
 def convert_utc_to_local(utc_datetime, time_zone_name, year, month, day):
     """
     Convert a UTC datetime to local time in the given time zone, adjusting to match the given year, month, and day.
