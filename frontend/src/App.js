@@ -7,11 +7,11 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <Planetslider planet={"blue"} start={"6:00am"} end={"6:00pm"}/>
-      <Planetslider />
-      <Planetslider />
+      <Planetslider planet={"mars"} start={"3:00"} end={"16:00"}/>
+      <Planetslider planet={"saturn"} start={"2:00"} end={"23:00"}/>
+      <Planetslider planet={"jupiter"} start={"00:00"} end={"24:00"}/>
       <div className="bg-hero bg-cover bg-center pb-80">
-        <h1 className="mt-20 ml-10 mr-10 text-6{xl font-bold text-left line-clamp-3 z-10">THE NEW AGE OF SPACE EXPLORATION</h1>
+        <h1 className="mt-20 ml-10 mr-10 text-6xl font-bold text-left line-clamp-3 z-10">THE NEW AGE OF SPACE EXPLORATION</h1>
         <p className="ml-20 mt-8 text-2xl text-left z-10">Look up and look upon the stars.</p>
         <button className=" flex ml-20 mt-8 bg-orange-600 text-black hover:bg-orange-300 text-xl font-bold p-4 rounded-lg z-10">View the Calendar</button>
       </div>

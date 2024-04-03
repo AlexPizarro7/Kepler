@@ -12,7 +12,7 @@ function Header() {
     //@TODO: https://www.codevertiser.com/reactjs-responsive-navbar/
 
     return (
-        <div className="header-nav Z-[50] h-[80px]">
+        <div className="header-nav Z-0 h-[80px]">
             <div className=" navigation flex flex-row p-5 w-full h-20 bg-black fixed top-0">
                 <a className="text-6xl h-20 font-bold fixed top-0" href="/">Kepler.</a>
                 <div className="hamburger mt-5 right-10 top-0" onClick={toggleHamburger}>
