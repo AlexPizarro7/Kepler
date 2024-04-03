@@ -1,5 +1,6 @@
 import React from 'react';
 import Hamburger from './Hamburger';
+import { Link } from 'react-router-dom';
 
 function Header() {
 
@@ -11,21 +12,21 @@ function Header() {
 
     return (
         <div className="header-nav Z-0">
-            <div className=" navigation flex flex-row p-5 w-full h-20 bg-black fixed top-0">
-                <a className="text-6xl h-20 font-bold fixed top-0" href="/">Kepler.</a>
+            <div className=" navigation flex flex-row p-5 w-full h-20 bg-[#0C0C0C] fixed top-0">
+                <Link to="/" className="text-6xl h-20 font-bold fixed top-0">Kepler.</Link>
                 <div className="hamburger mt-5 right-10 top-0" onClick={toggleHamburger}>
                     <Hamburger />
                 </div>
                 <div className="menu end-0">
                     <ul>
                         <li>
-                            <a href="/">Calendar</a>
+                            <Link to="/calendar">Calendar</Link>
                         </li>
                         <li>
-                            <a href="/faq">FAQ</a>
+                            <Link to="/faq">FAQ</Link>
                         </li>
                         <li>
-                            <a href="/logi">Login/Signup</a>
+                            <Link to="/login">Login</Link>
                         </li>
                     </ul>
                 </div>
@@ -35,7 +36,7 @@ function Header() {
 
         .menu {
             display: ${hamburgerOpen ? 'inline' : 'none'};
-            background-color: black;
+            background-color: #0C0C0C;
             height: 100%;
             width: 40vw;
             margin-top: 40px;
