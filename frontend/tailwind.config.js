@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       backgroundImage: {
         'hero': 'url("/src/img/hero.jpg")',
+        'solar': 'url("/src/img/solar-eclipse.webp")',
       }
     },
   },
