@@ -91,6 +91,39 @@ def calculate_sunset_utc(year, month, day, latitude, longitude):
     return None
 
 
+def calculate_astronomical_twilight_utc(year, month, day, latitude, longitude):
+    """
+    Calculate the start of astronomical twilight for a given date and location.
+
+    Parameters:
+    - year (int): Year.
+    - month (int): Month.
+    - day (int): Day.
+    - latitude (float): Latitude of the location.
+    - longitude (float): Longitude of the location.
+
+    Returns:
+    - str: Start time of astronomical twilight in UTC as a string.
+    """
+    load = Loader('~/.skyfield-data')
+    ts = load.timescale()
+    eph = load('de421.bsp')
+
+    observer = Topos(latitude_degrees=latitude, longitude_degrees=longitude)
+    t0 = ts.utc(year, month, day)
+    t1 = ts.utc(year, month, day + 1)
+
+    f = almanac.dark_twilight_day(eph, observer)
+    times, events = almanac.find_discrete(t0, t1, f)
+
+    for time, event in zip(times, events):
+        # Astronomical twilight start
+        if event == 3:
+            return time.utc_iso()
+
+    return None
+
+
 def calculate_planetrise_utc(planet_name, year, month, day, latitude, longitude):
     """
     Calculate and return the planetrise times in UTC for a specified date, location, and planet.
@@ -147,6 +180,41 @@ def calculate_planetset_utc(planet_name, year, month, day, latitude, longitude):
 
     t, _ = almanac.find_settings(observer, planet, t0, t1)
     return [ti.utc_datetime() for ti in t]
+
+
+def calculate_planet_culmination(planet_name, latitude, longitude, year, month, day):
+    """
+    Calculate the time of culmination (transit across the meridian) of a planet 
+    for a given location and date.
+
+    Parameters:
+    - planet_name (str): The name of the planet (e.g., 'Mars', 'Jupiter').
+    - latitude (float): The latitude of the observer.
+    - longitude (float): The longitude of the observer.
+    - year (int): The year of observation.
+    - month (int): The month of observation.
+    - day (int): The day of observation.
+
+    Returns:
+    - str: The time of culmination in UTC.
+    """
+    load = Loader('~/.skyfield-data')
+    ts = load.timescale()
+    eph = load('de421.bsp')
+
+    # Define the observer with reference to Earth
+    observer = eph['earth'] + \
+        Topos(latitude_degrees=latitude, longitude_degrees=longitude)
+    planet = eph[planet_name]
+
+    t0 = ts.utc(year, month, day)
+    t1 = ts.utc(year, month, day + 1)
+
+    t, y = almanac.find_transits(observer, planet, t0, t1)
+
+    if len(t):
+        return t[0].utc_iso()  # Returns the first transit time in the period
+    return None
 
 
 def calculate_moonrise_utc(year, month, day, latitude, longitude):
