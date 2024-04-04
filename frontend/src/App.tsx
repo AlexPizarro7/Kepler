@@ -3,7 +3,7 @@ import {Routes, Route} from 'react-router-dom';
 import Home from './Pages/Home';
 import Calendar from './Pages/Calendar';
 import FAQ from './Pages/FAQ';
-import Login from './Pages/Login';
+import SignIn from './Pages/SignIn';
 
 
 function App() {
@@ -13,7 +13,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/calendar" element={<Calendar />} />
         <Route path="/faq" element={<FAQ />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/sign-in" element={<SignIn />} />
       </Routes>
     </>
   );

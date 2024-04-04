@@ -8,7 +8,7 @@ export default function Hamburger() {
                 <div className="burger burger2" />
                 <div className="burger burger3" />
             </div>
-            <style jsx>{`
+            <style>{`
                 .hamburger {
                     width: 2rem;
                     height: 2rem;
