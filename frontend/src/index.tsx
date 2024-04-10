@@ -14,6 +14,7 @@ import SignIn from './Pages/SignIn';
 import SignUp from './Pages/SignUp';
 import Dashboard from './Pages/Dashboard';
 import DashboardInvoices from './Pages/DashboardInvoices';
+import NotFound from './Pages/NotFound';
 
 
 // Import your publishable key
@@ -33,12 +34,14 @@ const router = createBrowserRouter([
       { path: 'faq', element: <FAQ /> },
       { path: 'sign-in', element: <SignIn /> },
       { path: 'sign-up', element: <SignUp /> },
+      { path: '*', element: <NotFound />},
       { 
         element: <DashboardLayout />,
         path: 'dashboard',
         children: [
         { path: "/dashboard", element: <Dashboard /> },
-        { path: "/dashboard/invoices", element: <DashboardInvoices /> }
+        { path: "/dashboard/invoices", element: <DashboardInvoices /> },
+        { path: '*', element: <NotFound />},
         ]
        }
     ]
