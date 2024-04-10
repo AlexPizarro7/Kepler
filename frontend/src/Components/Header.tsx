@@ -33,6 +33,11 @@ function Header() {
                         </li>
                         <li>
                             <SignedIn>
+                                <Link to="/dashboard">Dashboard</Link>
+                            </SignedIn>
+                        </li>
+                        <li>
+                            <SignedIn>
                                 <Link to="/calendar">Calendar</Link>
                             </SignedIn>
                             <SignedOut>
@@ -41,6 +46,11 @@ function Header() {
                         </li>
                         <li>
                             <Link to="/faq">FAQ</Link>
+                        </li>
+                        <li>
+                            <SignedIn>
+                                <Link to="/calendar">Calendar</Link>
+                            </SignedIn>
                         </li>
                     </ul>
                 </div>
