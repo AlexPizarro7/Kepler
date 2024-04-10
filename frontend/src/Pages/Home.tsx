@@ -6,7 +6,20 @@ function Home() {
     const navigate = useNavigate();
 
     const handleCalendarCTA = () => {
-        navigate('/calendar');
+        
+        if (document.cookie.match(/^(.*;)?\s*__session\s*=\s*[^;]+(.*)?$/) == null) { 
+            navigate('/sign-up')
+        }else {
+            navigate('/calendar')
+        }
+    }
+
+    const handleSignup = () => {
+        if (document.cookie.match(/^(.*;)?\s*__session\s*=\s*[^;]+(.*)?$/) == null) { 
+            navigate('/sign-up')
+        }else {
+            navigate('/dashboard')
+        }
     }
 
     return (
@@ -20,7 +33,7 @@ function Home() {
         <div className="mt-20 bg-black pb-80">
             <h2 className="ml-20 text-8xl font-bold text-center">THE NEW AGE OF SPACE SIGHTSEEING</h2>
             <p className="ml-20 mt-8 text-2xl text-center underline">Look up and look upon the stars.</p>
-            <button className=" ml-20 mt-8 bg-orange-600 text-black hover:bg-orange-300 text-xl font-bold p-4 rounded-lg">Signup Now</button>
+            <button onClick={handleSignup} className=" ml-20 mt-8 bg-orange-600 text-black hover:bg-orange-300 text-xl font-bold p-4 rounded-lg">Signup Now</button>
         </div>
     </div>
     )

@@ -1,7 +1,7 @@
 import React from 'react';
 import Hamburger from './Hamburger';
 import { Link } from 'react-router-dom';
-import { RedirectToSignUp, SignedIn, SignedOut, UserButton } from '@clerk/clerk-react';
+import { SignedIn, SignedOut, UserButton } from '@clerk/clerk-react';
 
 function Header() {
 
