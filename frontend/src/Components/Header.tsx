@@ -12,9 +12,9 @@ function Header() {
     }
 
     return (
-        <div className="header-nav Z-0">
+        <div className="header-nav">
             
-            <div className=" navigation flex flex-row p-5 w-full h-20 bg-[#0C0C0C] fixed top-0">
+            <div className=" navigation flex flex-row p-5 w-full h-20 bg-[#0C0C0C] fixed top-0  z-[10]">
                 <Link to="/" className="text-6xl h-20 font-bold fixed top-0">Kepler.</Link>
                 <div className="hamburger mt-5 right-10 top-0" onClick={toggleHamburger}>
                     <Hamburger />
@@ -28,7 +28,7 @@ function Header() {
                                 </div>
                             </SignedIn>
                             <SignedOut>
-                                <Link to="/sign-up">Sign In</Link>
+                                <Link to="/sign-in">Sign In</Link>
                             </SignedOut>
                         </li>
                         <li>
@@ -41,7 +41,7 @@ function Header() {
                                 <Link to="/calendar">Calendar</Link>
                             </SignedIn>
                             <SignedOut>
-                                <Link to="/sign-up">Calendar</Link>
+                                <Link to="/sign-in">Calendar</Link>
                             </SignedOut>
                         </li>
                         <li>
