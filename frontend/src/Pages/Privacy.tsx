@@ -1,14 +1,10 @@
 import React from 'react';
-import Header from '../Components/Header';
-import Footer from '../Components/Footer';
 
 
 
 function Privacy() {
     return (
         <div className="container">
-            <Header />
-            <body>
                 <div className="tab-content translations-content-item en visible" id="en">
                     <h1>Privacy Policy</h1>
                     <p>Last updated: April 10, 2024</p>
@@ -184,8 +180,6 @@ function Privacy() {
                         <li>By email: joshua.duda@kepler.com</li>
                     </ul>
                 </div>
-            </body>
-            <Footer />
         </div>
     )
 }
