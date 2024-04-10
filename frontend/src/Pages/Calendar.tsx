@@ -1,5 +1,6 @@
 import React from 'react';
 import Header from '../Components/Header';
+import Footer from '../Components/Footer';
 
 
 
@@ -7,8 +8,10 @@ function Calendar() {
     return (
         <div>
             <Header />
-            <h1>Calendar</h1>
-            
+            <body className="h-[500px]">
+                <h1>Calendar</h1>
+            </body>
+            <Footer />
         </div>
     )
 }
