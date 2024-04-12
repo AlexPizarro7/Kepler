@@ -1,77 +1,54 @@
 from django.test import TestCase
 from astronomy.views import *
+from datetime import datetime
+import pytz
 
 
 class AstronomyTests(TestCase):
-
-    def test_mars_rise_and_set_times_in_canberra(self):
+    def test_mercury_events_in_nyc(self):
         # Location and date
-        city = "Canberra"
-        country = "Australia"
-        year, month, day = 2024, 4, 1  # April 1, 2024
+        city = "New York"
+        country = "USA"
+        year, month, day = 2024, 4, 10
 
-        # Get coordinates
+        # Step 1: Get coordinates and timezone
         locations = get_coordinates(city, country)
-        self.assertTrue(locations, "Failed to retrieve coordinates.")
-        selected_location = locations[0]  # Using the first location
-
-        # Calculate Mars rise and set times in UTC
-        mars_rise_utc = calculate_planetrise_utc(
-            'Mars', year, month, day, selected_location.latitude, selected_location.longitude)
-        mars_set_utc = calculate_planetset_utc(
-            'Mars', year, month, day, selected_location.latitude, selected_location.longitude)
-
-        # Convert to local time
+        self.assertIsNotNone(locations, "Failed to retrieve coordinates.")
+        selected_location = locations[0]
         time_zone_name = get_timezone(
             selected_location.latitude, selected_location.longitude)
-        self.assertTrue(time_zone_name, "Failed to retrieve timezone.")
+        self.assertIsNotNone(time_zone_name, "Failed to retrieve timezone.")
 
-        for rise_time in mars_rise_utc:
-            mars_rise_local = convert_utc_to_local(
-                rise_time, time_zone_name, year, month, day)
-            print(f"Mars rise time in {city} on {year}-{month:02d}-{day:02d}: {mars_rise_local.strftime(
-                '%Y-%m-%d %I:%M %p')} (local time), {rise_time.strftime('%Y-%m-%d %H:%M:%S')} UTC")
+        # Step 2: Calculate Mercury rise, culmination, and set in UTC
+        mercury_rise_utc_str = calculate_celestial_body_rise_utc("Mercury", year, month, day,
+                                                                 selected_location.latitude, selected_location.longitude)[0]
+        mercury_set_utc_str = calculate_celestial_body_set_utc("Mercury", year, month, day,
+                                                               selected_location.latitude, selected_location.longitude)[0]
+        mercury_culmination_utc_str = calculate_meridian_transit("Mercury", selected_location.latitude,
+                                                                 selected_location.longitude, year, month, day)
 
-        for set_time in mars_set_utc:
-            mars_set_local = convert_utc_to_local(
-                set_time, time_zone_name, year, month, day)
-            print(f"Mars set time in {city} on {year}-{month:02d}-{day:02d}: {mars_set_local.strftime(
-                '%Y-%m-%d %I:%M %p')} (local time), {set_time.strftime('%Y-%m-%d %H:%M:%S')} UTC")
+        # Parse the UTC strings to datetime
+        mercury_rise_utc = datetime.fromisoformat(
+            mercury_rise_utc_str).replace(tzinfo=pytz.utc)
+        mercury_set_utc = datetime.fromisoformat(
+            mercury_set_utc_str).replace(tzinfo=pytz.utc)
+        mercury_culmination_utc = datetime.fromisoformat(
+            mercury_culmination_utc_str).replace(tzinfo=pytz.utc)
 
-# Note: Run this test to get the rise and set times of Mars for Canberra on April 1, 2024.
+        # Step 4: Convert all times to local time
+        mercury_rise_local = convert_utc_to_local(
+            mercury_rise_utc, time_zone_name, year, month, day)
+        mercury_set_local = convert_utc_to_local(
+            mercury_set_utc, time_zone_name, year, month, day)
+        mercury_culmination_local = convert_utc_to_local(
+            mercury_culmination_utc, time_zone_name, year, month, day)
 
-    def test_venus_rise_and_set_times_in_canberra(self):
-        # Location and date
-        city = "Canberra"
-        country = "Australia"
-        year, month, day = 2024, 4, 1  # April 1, 2024
+        # Step 5: Print results
+        print(f"Mercury rise in New York on {
+              year}-{month:02d}-{day:02d}: {mercury_rise_local}")
+        print(f"Mercury set in New York on {
+              year}-{month:02d}-{day:02d}: {mercury_set_local}")
+        print(f"Mercury culmination in New York on {
+              year}-{month:02d}-{day:02d}: {mercury_culmination_local}")
 
-        # Get coordinates
-        locations = get_coordinates(city, country)
-        self.assertTrue(locations, "Failed to retrieve coordinates.")
-        selected_location = locations[0]  # Using the first location
-
-        # Calculate Venus rise and set times in UTC
-        venus_rise_utc = calculate_planetrise_utc(
-            'Venus', year, month, day, selected_location.latitude, selected_location.longitude)
-        venus_set_utc = calculate_planetset_utc(
-            'Venus', year, month, day, selected_location.latitude, selected_location.longitude)
-
-        # Convert to local time
-        time_zone_name = get_timezone(
-            selected_location.latitude, selected_location.longitude)
-        self.assertTrue(time_zone_name, "Failed to retrieve timezone.")
-
-        for rise_time in venus_rise_utc:
-            venus_rise_local = convert_utc_to_local(
-                rise_time, time_zone_name, year, month, day)
-            print(f"Venus rise time in {city} on {year}-{month:02d}-{day:02d}: {venus_rise_local.strftime(
-                '%Y-%m-%d %I:%M %p')} (local time), {rise_time.strftime('%Y-%m-%d %H:%M:%S')} UTC")
-
-        for set_time in venus_set_utc:
-            venus_set_local = convert_utc_to_local(
-                set_time, time_zone_name, year, month, day)
-            print(f"Venus set time in {city} on {year}-{month:02d}-{day:02d}: {venus_set_local.strftime(
-                '%Y-%m-%d %I:%M %p')} (local time), {set_time.strftime('%Y-%m-%d %H:%M:%S')} UTC")
-
-# Note: Run this test to get the rise and set times of Venus for Canberra on April 1, 2024.
+# Note: The format for the datetime in the print statements can be adjusted as needed.

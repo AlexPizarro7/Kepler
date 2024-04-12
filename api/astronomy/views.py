@@ -63,35 +63,7 @@ def get_timezone(latitude, longitude):
     return tz_finder.timezone_at(lat=latitude, lng=longitude)
 
 
-def calculate_sunset_utc(year, month, day, latitude, longitude):
-    """
-    Calculate and return the sunset time in UTC for a specified date and location.
-    """
-    load = Loader('~/.skyfield-data')
-    ts = load.timescale()
-    eph = load('de421.bsp')
-    sun = eph['sun']
-
-    observer = eph['earth'] + \
-        Topos(latitude_degrees=latitude, longitude_degrees=longitude)
-
-    # Extend the time range to the next day to ensure we capture sunset times after midnight UTC
-    t0 = ts.utc(year, month, day)
-    t1 = ts.utc(year, month, day, 24)
-
-    # Find sunset times
-    t, y = almanac.find_settings(observer, sun, t0, t1)
-
-    for ti, event in zip(t, y):
-        sunset_time = ti.utc_datetime()
-        # Ensure the sunset time is within the desired day
-        if event and sunset_time.date() == datetime(year, month, day).date():
-            return sunset_time
-
-    return None
-
-
-def calculate_astronomical_twilight_utc(year, month, day, latitude, longitude):
+def calculate_astronomical_twilight_start_utc(year, month, day, latitude, longitude):
     """
     Calculate the start of astronomical twilight for a given date and location.
 
@@ -124,12 +96,47 @@ def calculate_astronomical_twilight_utc(year, month, day, latitude, longitude):
     return None
 
 
-def calculate_planetrise_utc(planet_name, year, month, day, latitude, longitude):
+def calculate_astronomical_twilight_end_utc(year, month, day, latitude, longitude):
     """
-    Calculate and return the planetrise times in UTC for a specified date, location, and planet, as strings.
+    Calculate the end of astronomical twilight for a given date and location.
 
     Parameters:
-    - planet_name (str): Name of the planet (e.g., 'Mars', 'Jupiter').
+    - year (int): Year.
+    - month (int): Month.
+    - day (int): Day.
+    - latitude (float): Latitude of the location.
+    - longitude (float): Longitude of the location.
+
+    Returns:
+    - str: End time of astronomical twilight in UTC as a string.
+    """
+    load = Loader('~/.skyfield-data')
+    ts = load.timescale()
+    eph = load('de421.bsp')
+
+    observer = Topos(latitude_degrees=latitude, longitude_degrees=longitude)
+    t0 = ts.utc(year, month, day)
+    t1 = ts.utc(year, month, day + 1)
+
+    f = almanac.dark_twilight_day(eph, observer)
+    times, events = almanac.find_discrete(t0, t1, f)
+
+    previous_event = f(t0).item()
+    for time, event in zip(times, events):
+        if previous_event == 2 and event == 1:
+            # End of astronomical twilight (transition to full night)
+            return time.utc_iso()
+        previous_event = event
+
+    return "Twilight end not found."
+
+
+def calculate_celestial_body_rise_utc(body_name, year, month, day, latitude, longitude):
+    """
+    Calculate and return the rise times in UTC for a specified date, location, and celestial body, as strings.
+
+    Parameters:
+    - body_name (str): Name of the celestial body (e.g., 'Sun', 'Moon', 'Mars', 'Jupiter').
     - year (int): Year of the date.
     - month (int): Month of the date.
     - day (int): Day of the date.
@@ -137,54 +144,25 @@ def calculate_planetrise_utc(planet_name, year, month, day, latitude, longitude)
     - longitude (float): Longitude of the location.
 
     Returns:
-    - list: List of planetrise times in UTC as ISO formatted strings.
+    - list: List of rise times in UTC as ISO formatted strings.
     """
     load = Loader('~/.skyfield-data')
     ts = load.timescale()
     eph = load('de421.bsp')
-    planet = eph[planet_name]
+    body = eph[body_name]
 
     observer = eph['earth'] + \
         Topos(latitude_degrees=latitude, longitude_degrees=longitude)
     t0 = ts.utc(year, month, day)
     t1 = ts.utc(year, month, day + 1)
 
-    t, _ = almanac.find_risings(observer, planet, t0, t1)
+    t, _ = almanac.find_risings(observer, body, t0, t1)
     return [ti.utc_iso() for ti in t]
 
 
-def calculate_planetset_utc(planet_name, year, month, day, latitude, longitude):
+def calculate_meridian_transit(planet_name, latitude, longitude, year, month, day):
     """
-    Calculate and return the planetset times in UTC for a specified date, location, and planet, as strings.
-
-    Parameters:
-    - planet_name (str): Name of the planet (e.g., 'Mars', 'Jupiter').
-    - year (int): Year of the date.
-    - month (int): Month of the date.
-    - day (int): Day of the date.
-    - latitude (float): Latitude of the location.
-    - longitude (float): Longitude of the location.
-
-    Returns:
-    - list: List of planetset times in UTC as ISO formatted strings.
-    """
-    load = Loader('~/.skyfield-data')
-    ts = load.timescale()
-    eph = load('de421.bsp')
-    planet = eph[planet_name]
-
-    observer = eph['earth'] + \
-        Topos(latitude_degrees=latitude, longitude_degrees=longitude)
-    t0 = ts.utc(year, month, day)
-    t1 = ts.utc(year, month, day + 1)
-
-    t, _ = almanac.find_settings(observer, planet, t0, t1)
-    return [ti.utc_iso() for ti in t]
-
-
-def calculate_planet_culmination(planet_name, latitude, longitude, year, month, day):
-    """
-    Calculate the time of culmination (transit across the meridian) of a planet 
+    Calculate the meridian transit (time when the planet is highest in the sky) 
     for a given location and date, and return it as a string.
 
     Parameters:
@@ -196,32 +174,36 @@ def calculate_planet_culmination(planet_name, latitude, longitude, year, month, 
     - day (int): The day of observation.
 
     Returns:
-    - str: The time of culmination in UTC as a string.
+    - str: The time of the meridian transit in UTC as a string.
     """
+    from skyfield import almanac
+
     load = Loader('~/.skyfield-data')
     ts = load.timescale()
     eph = load('de421.bsp')
 
-    observer = eph['earth'] + \
-        Topos(latitude_degrees=latitude, longitude_degrees=longitude)
+    observer = Topos(latitude_degrees=latitude, longitude_degrees=longitude)
     planet = eph[planet_name]
 
     t0 = ts.utc(year, month, day)
     t1 = ts.utc(year, month, day + 1)
 
-    t, y = almanac.find_transits(observer, planet, t0, t1)
+    f = almanac.meridian_transits(eph, planet, observer)
+    times, events = almanac.find_discrete(t0, t1, f)
 
-    if len(t):
-        # Return the first transit time in ISO format
-        return t[0].utc_iso()
-    return None
+    for t, event in zip(times, events):
+        if event == 1:  # 1 indicates meridian transit
+            return t.utc_iso()
+
+    return "Meridian transit not found."
 
 
-def calculate_moonrise_utc(year, month, day, latitude, longitude):
+def calculate_celestial_body_set_utc(body_name, year, month, day, latitude, longitude):
     """
-    Calculate and return the moonrise times in UTC for a specified date and location, as strings.
+    Calculate and return the setting times in UTC for a specified date, location, and celestial body, as strings.
 
     Parameters:
+    - body_name (str): Name of the celestial body (e.g., 'Sun', 'Mars', 'Jupiter').
     - year (int): Year of the date.
     - month (int): Month of the date.
     - day (int): Day of the date.
@@ -229,52 +211,20 @@ def calculate_moonrise_utc(year, month, day, latitude, longitude):
     - longitude (float): Longitude of the location.
 
     Returns:
-    - list: List of moonrise times in UTC as ISO formatted strings.
+    - list: List of setting times in UTC as ISO formatted strings.
     """
     load = Loader('~/.skyfield-data')
     ts = load.timescale()
     eph = load('de421.bsp')
-    moon = eph['moon']
+    body = eph[body_name]
 
     observer = eph['earth'] + \
         Topos(latitude_degrees=latitude, longitude_degrees=longitude)
     t0 = ts.utc(year, month, day)
     t1 = ts.utc(year, month, day + 1)
 
-    t, y = almanac.find_risings(observer, moon, t0, t1)
-
-    # Convert each Time object to an ISO formatted string
-    return [ti.utc_iso() for ti, event in zip(t, y) if event]
-
-
-def calculate_moonset_utc(year, month, day, latitude, longitude):
-    """
-    Calculate and return the moonset times in UTC for a specified date and location, as strings.
-
-    Parameters:
-    - year (int): Year of the date.
-    - month (int): Month of the date.
-    - day (int): Day of the date.
-    - latitude (float): Latitude of the location.
-    - longitude (float): Longitude of the location.
-
-    Returns:
-    - list: List of moonset times in UTC as ISO formatted strings.
-    """
-    load = Loader('~/.skyfield-data')
-    ts = load.timescale()
-    eph = load('de421.bsp')
-    moon = eph['moon']
-
-    observer = eph['earth'] + \
-        Topos(latitude_degrees=latitude, longitude_degrees=longitude)
-    t0 = ts.utc(year, month, day)
-    t1 = ts.utc(year, month, day + 1)
-
-    t, y = almanac.find_settings(observer, moon, t0, t1)
-
-    # Convert each Time object to an ISO formatted string
-    return [ti.utc_iso() for ti, event in zip(t, y) if event]
+    t, _ = almanac.find_settings(observer, body, t0, t1)
+    return [ti.utc_iso() for ti in t]
 
 
 def convert_utc_to_local(utc_datetime, time_zone_name, year, month, day):
