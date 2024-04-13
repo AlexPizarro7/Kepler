@@ -14,11 +14,13 @@ const Accordion = ({ i, expanded, setExpanded, title, description }) => {
         }}
         onClick={() => setExpanded(isOpen ? false : i)}
         style={{
+          marginLeft: "2rem",
+          marginRight: "2rem",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
           padding: "2rem 4rem",
-          cursor: "pointer",
+          cursor: "pointer"
         }}
       >
         {title}
@@ -36,6 +38,8 @@ const Accordion = ({ i, expanded, setExpanded, title, description }) => {
             }}
             transition={{ duration: 0.4, ease: [0.04, 0.62, 0.23, 0.98] }}
             style={{
+              marginLeft: "2rem",
+              marginRight: "2rem",
               backgroundColor: "black",
               padding: "0 2rem",
             }}
