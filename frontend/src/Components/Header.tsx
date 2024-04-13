@@ -47,11 +47,6 @@ function Header() {
                         <li>
                             <Link className="hover:text-gray-300 text-lg" to="/faq">FAQ</Link>
                         </li>
-                        <li>
-                            <SignedIn>
-                                <Link className="hover:text-gray-300 text-lg" to="/calendar">Calendar</Link>
-                            </SignedIn>
-                        </li>
                     </ul>
                 </div>
             </div>

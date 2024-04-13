@@ -15,7 +15,7 @@ import SignUp from './Pages/SignUp';
 import Dashboard from './Pages/Dashboard';
 import NotFound from './Pages/NotFound';
 import Privacy from './Pages/Privacy';
-
+import AboutUs from './Pages/AboutUs';
 
 // Import your publishable key
 const PUBLISHABLE_KEY :string = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
@@ -35,6 +35,7 @@ const router = createBrowserRouter([
       { path: 'sign-in', element: <SignIn /> },
       { path: 'sign-up', element: <SignUp /> },
       { path: 'privacy', element: <Privacy />},
+      { path: 'about-us', element: <AboutUs />},
       { path: '*', element: <NotFound />},
       { 
         element: <DashboardLayout />,
