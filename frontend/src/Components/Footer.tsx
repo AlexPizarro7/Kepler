@@ -10,12 +10,11 @@ function Footer() {
                 <div className="grid grid-cols-1">
                     <h2>About Us</h2>
                     <a className="ml-[30px] text-sm" href="/faq">FAQ</a>
-                    <a className="ml-[30px] text-sm" href="/">About us</a>
+                    <a className="ml-[30px] text-sm" href="/about-us">About us</a>
                 </div>
                 <div className="grid grid-cols-1">
                     <h2>Features</h2>
                     <SignedIn>
-                        <a className="ml-[30px] text-sm" href="/dashboard">My Account</a>
                         <a className="ml-[30px] text-sm" href="/calendar">Calendar</a>
                     </SignedIn>
                     <SignedOut>
