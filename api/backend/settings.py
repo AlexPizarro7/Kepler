@@ -30,6 +30,7 @@ ALLOWED_HOSTS = ['0.0.0.0','127.0.0.1'] # this is the host that Docker uses to r
 # Application definition
 
 INSTALLED_APPS = [
+    'astronomy.apps.AstronomyConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
