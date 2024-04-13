@@ -28,28 +28,28 @@ function Header() {
                                 </div>
                             </SignedIn>
                             <SignedOut>
-                                <Link to="/sign-in">Sign In</Link>
+                                <Link className="hover:text-gray-300 text-lg" to="/sign-in">Sign In</Link>
                             </SignedOut>
                         </li>
                         <li>
                             <SignedIn>
-                                <Link to="/dashboard">Dashboard</Link>
+                                <Link className="hover:text-gray-300 text-lg" to="/dashboard">My Account</Link>
                             </SignedIn>
                         </li>
                         <li>
                             <SignedIn>
-                                <Link to="/calendar">Calendar</Link>
+                                <Link className="hover:text-gray-300 text-lg" to="/calendar">Calendar</Link>
                             </SignedIn>
                             <SignedOut>
-                                <Link to="/sign-in">Calendar</Link>
+                                <Link className="hover:text-gray-300 text-lg" to="/sign-in">Calendar</Link>
                             </SignedOut>
                         </li>
                         <li>
-                            <Link to="/faq">FAQ</Link>
+                            <Link className="hover:text-gray-300 text-lg" to="/faq">FAQ</Link>
                         </li>
                         <li>
                             <SignedIn>
-                                <Link to="/calendar">Calendar</Link>
+                                <Link className="hover:text-gray-300 text-lg" to="/calendar">Calendar</Link>
                             </SignedIn>
                         </li>
                     </ul>
@@ -61,11 +61,14 @@ function Header() {
         .menu {
             display: ${hamburgerOpen ? 'inline' : 'none'};
             background-color: #0C0C0C;
-            height: 100%;
+            height: 25%;
             width: 30vw;
             margin-top: 40px;
+            padding-top: 40px;
             position: fixed;
             text-align: center;
+            border-radius: 10% 0% 0% 10%;
+            box-shadow: 0 0 10px 0 rgba(0,0,0,1);
         }
 
         .menu li {

@@ -8,23 +8,24 @@ import {
  
 export function StarsTest() {
   return (
-    <div className="flex py-20 items-center justify-center antialiased">
-      <GlowingStarsBackgroundCard>
-        <GlowingStarsTitle>Next.js 14</GlowingStarsTitle>
-        <div className="flex justify-between items-end">
-          <GlowingStarsDescription>
-            The power of full-stack to the frontend. Read the release notes.
-          </GlowingStarsDescription>
-          <div className="h-8 w-8 rounded-full bg-[hsla(0,0%,100%,.1)] flex items-center justify-center">
-            <Icon />
+      <div className="flex py-20 items-center justify-center antialiased">
+        <GlowingStarsBackgroundCard>
+          <GlowingStarsTitle>About Kepler</GlowingStarsTitle>
+          <div className="flex justify-between items-end">
+            <GlowingStarsDescription>
+              Learn our mission is and what we have planned for the future.
+            </GlowingStarsDescription>
+            <div className="h-8 w-8 rounded-full bg-[linear-gradient(110deg,#333_0.6%,#222)] flex items-center justify-center" >
+              <Icon />
+            </div>
           </div>
-        </div>
-      </GlowingStarsBackgroundCard>
-    </div>
+        </GlowingStarsBackgroundCard>
+      </div>
   );
 }
  
 const Icon = () => {
+
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

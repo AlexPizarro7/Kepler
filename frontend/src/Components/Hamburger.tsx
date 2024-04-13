@@ -4,7 +4,7 @@ export default function Hamburger() {
     return (
         <>
             <div className="hamburger">
-                <div className="burger burger1" />
+                <div className="burger burger1 " />
                 <div className="burger burger2" />
                 <div className="burger burger3" />
             </div>
@@ -25,6 +25,12 @@ export default function Hamburger() {
                     border-radius: 10px;
                     transform-origin: 1px;
                     transition: all 0.3s linear;
+                }
+
+                .hamburger:hover {
+                    .burger{   
+                        background-color: gray;
+                    }
                 }
         `}</style>
         </>

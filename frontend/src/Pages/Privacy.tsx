@@ -4,9 +4,9 @@ import React from 'react';
 
 function Privacy() {
     return (
-        <div className="container">
-                <div className="tab-content translations-content-item en visible" id="en">
-                    <h1>Privacy Policy</h1>
+        <div className="container pl-10 pb-20">
+                <div className="tab-content translations-content-item en visible pb-20" id="en">
+                    <h1 className="mb-10">Privacy Policy</h1>
                     <p>Last updated: April 10, 2024</p>
                     <p>This Privacy Policy describes Our policies and procedures on the collection, use and disclosure of Your information when You use the Service and tells You about Your privacy rights and how the law protects You.</p>
                     <p>We use Your Personal data to provide and improve the Service. By using the Service, You agree to the collection and use of information in accordance with this Privacy Policy. This Privacy Policy has been created with the help of the <a href="https://www.freeprivacypolicy.com/free-privacy-policy-generator/" target="_blank">Free Privacy Policy Generator</a>.</p>
@@ -65,7 +65,7 @@ function Privacy() {
                             <p>Usage Data</p>
                         </li>
                     </ul>
-                    <h4>Usage Data</h4>
+                    <h3>Usage Data</h3>
                     <p>Usage Data is collected automatically when using the Service.</p>
                     <p>Usage Data may include information such as Your Device's Internet Protocol address (e.g. IP address), browser type, browser version, the pages of our Service that You visit, the time and date of Your visit, the time spent on those pages, unique device identifiers and other diagnostic data.</p>
                     <p>When You access the Service by or through a mobile device, We may collect certain information automatically, including, but not limited to, the type of mobile device You use, Your mobile device unique ID, the IP address of Your mobile device, Your mobile operating system, the type of mobile Internet browser You use, unique device identifiers and other diagnostic data.</p>
