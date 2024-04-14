@@ -1,54 +1,59 @@
 from django.test import TestCase
 from astronomy.views import *
-from datetime import datetime
 import pytz
+from datetime import datetime
 
 
 class AstronomyTests(TestCase):
-    def test_mercury_events_in_nyc(self):
-        # Location and date
+    def test_celestial_events_in_nyc(self):
         city = "New York"
         country = "USA"
         year, month, day = 2024, 4, 10
 
-        # Step 1: Get coordinates and timezone
+        # Retrieve coordinates and timezone
         locations = get_coordinates(city, country)
-        self.assertIsNotNone(locations, "Failed to retrieve coordinates.")
+        self.assertTrue(locations, "Failed to retrieve coordinates.")
         selected_location = locations[0]
         time_zone_name = get_timezone(
             selected_location.latitude, selected_location.longitude)
-        self.assertIsNotNone(time_zone_name, "Failed to retrieve timezone.")
+        self.assertTrue(time_zone_name, "Failed to retrieve timezone.")
 
-        # Step 2: Calculate Mercury rise, culmination, and set in UTC
-        mercury_rise_utc_str = calculate_celestial_body_rise_utc("Mercury", year, month, day,
-                                                                 selected_location.latitude, selected_location.longitude)[0]
-        mercury_set_utc_str = calculate_celestial_body_set_utc("Mercury", year, month, day,
-                                                               selected_location.latitude, selected_location.longitude)[0]
-        mercury_culmination_utc_str = calculate_meridian_transit("Mercury", selected_location.latitude,
-                                                                 selected_location.longitude, year, month, day)
+        # Calculate celestial times in UTC
+        sunrise_utc = calculate_celestial_body_rise_utc("Sun", year, month, day,
+                                                        selected_location.latitude, selected_location.longitude)[0]
+        sun_culmination_utc = calculate_celestial_body_culmination_utc("Sun", selected_location.latitude,
+                                                                       selected_location.longitude, year, month, day)
+        sunset_utc = calculate_celestial_body_set_utc("Sun", year, month, day,
+                                                      selected_location.latitude, selected_location.longitude)[0]
+        twilight_end_utc = calculate_astronomical_twilight_end_utc(year, month, day,
+                                                                   selected_location.latitude, selected_location.longitude)
 
-        # Parse the UTC strings to datetime
-        mercury_rise_utc = datetime.fromisoformat(
-            mercury_rise_utc_str).replace(tzinfo=pytz.utc)
-        mercury_set_utc = datetime.fromisoformat(
-            mercury_set_utc_str).replace(tzinfo=pytz.utc)
-        mercury_culmination_utc = datetime.fromisoformat(
-            mercury_culmination_utc_str).replace(tzinfo=pytz.utc)
+        # Convert UTC to local time directly without needing to parse as datetime
+        sunrise_local = convert_utc_to_local(
+            sunrise_utc, time_zone_name, year, month, day)
+        sun_culmination_local = convert_utc_to_local(
+            sun_culmination_utc, time_zone_name, year, month, day)
+        sunset_local = convert_utc_to_local(
+            sunset_utc, time_zone_name, year, month, day)
+        twilight_end_local = convert_utc_to_local(
+            twilight_end_utc, time_zone_name, year, month, day)
 
-        # Step 4: Convert all times to local time
-        mercury_rise_local = convert_utc_to_local(
-            mercury_rise_utc, time_zone_name, year, month, day)
-        mercury_set_local = convert_utc_to_local(
-            mercury_set_utc, time_zone_name, year, month, day)
-        mercury_culmination_local = convert_utc_to_local(
-            mercury_culmination_utc, time_zone_name, year, month, day)
+        # Format times to 12-hour AM/PM format before printing
+        sunrise_local_formatted = datetime.strptime(
+            sunrise_local, '%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d %I:%M %p')
+        sun_culmination_local_formatted = datetime.strptime(
+            sun_culmination_local, '%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d %I:%M %p')
+        sunset_local_formatted = datetime.strptime(
+            sunset_local, '%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d %I:%M %p')
+        twilight_end_local_formatted = datetime.strptime(
+            twilight_end_local, '%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d %I:%M %p')
 
-        # Step 5: Print results
-        print(f"Mercury rise in New York on {
-              year}-{month:02d}-{day:02d}: {mercury_rise_local}")
-        print(f"Mercury set in New York on {
-              year}-{month:02d}-{day:02d}: {mercury_set_local}")
-        print(f"Mercury culmination in New York on {
-              year}-{month:02d}-{day:02d}: {mercury_culmination_local}")
-
-# Note: The format for the datetime in the print statements can be adjusted as needed.
+        # Print the results in a user-friendly 12-hour format
+        print(f"Sunrise in New York on {
+              year}-{month:02d}-{day:02d}: {sunrise_local_formatted}")
+        print(f"Sun culmination in New York on {
+              year}-{month:02d}-{day:02d}: {sun_culmination_local_formatted}")
+        print(f"Sunset in New York on {
+              year}-{month:02d}-{day:02d}: {sunset_local_formatted}")
+        print(f"Astronomical Twilight ends in New York on {
+              year}-{month:02d}-{day:02d}: {twilight_end_local_formatted}")

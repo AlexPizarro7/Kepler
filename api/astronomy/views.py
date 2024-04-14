@@ -1,3 +1,4 @@
+from datetime import datetime
 import numpy as np
 from astropy.time import Time
 from astropy.coordinates import get_sun, get_body
@@ -61,39 +62,6 @@ def get_timezone(latitude, longitude):
     """
     tz_finder = TimezoneFinder()
     return tz_finder.timezone_at(lat=latitude, lng=longitude)
-
-
-def calculate_astronomical_twilight_start_utc(year, month, day, latitude, longitude):
-    """
-    Calculate the start of astronomical twilight for a given date and location.
-
-    Parameters:
-    - year (int): Year.
-    - month (int): Month.
-    - day (int): Day.
-    - latitude (float): Latitude of the location.
-    - longitude (float): Longitude of the location.
-
-    Returns:
-    - str: Start time of astronomical twilight in UTC as a string.
-    """
-    load = Loader('~/.skyfield-data')
-    ts = load.timescale()
-    eph = load('de421.bsp')
-
-    observer = Topos(latitude_degrees=latitude, longitude_degrees=longitude)
-    t0 = ts.utc(year, month, day)
-    t1 = ts.utc(year, month, day + 1)
-
-    f = almanac.dark_twilight_day(eph, observer)
-    times, events = almanac.find_discrete(t0, t1, f)
-
-    for time, event in zip(times, events):
-        # Astronomical twilight start
-        if event == 3:
-            return time.utc_iso()
-
-    return None
 
 
 def calculate_astronomical_twilight_end_utc(year, month, day, latitude, longitude):
@@ -160,10 +128,10 @@ def calculate_celestial_body_rise_utc(body_name, year, month, day, latitude, lon
     return [ti.utc_iso() for ti in t]
 
 
-def calculate_meridian_transit(planet_name, latitude, longitude, year, month, day):
+def calculate_celestial_body_culmination_utc(planet_name, latitude, longitude, year, month, day):
     """
     Calculate the meridian transit (time when the planet is highest in the sky) 
-    for a given location and date, and return it as a string.
+    also known as culmination,for a given location and date, and return it as a string.
 
     Parameters:
     - planet_name (str): The name of the planet (e.g., 'Mars', 'Jupiter').
@@ -174,7 +142,7 @@ def calculate_meridian_transit(planet_name, latitude, longitude, year, month, da
     - day (int): The day of observation.
 
     Returns:
-    - str: The time of the meridian transit in UTC as a string.
+    - str: The time of the meridian transit (culmination) in UTC as a string.
     """
     from skyfield import almanac
 
@@ -227,13 +195,12 @@ def calculate_celestial_body_set_utc(body_name, year, month, day, latitude, long
     return [ti.utc_iso() for ti in t]
 
 
-def convert_utc_to_local(utc_datetime, time_zone_name, year, month, day):
+def convert_utc_to_local(utc_datetime_str, time_zone_name, year, month, day):
     """
-    Convert a UTC datetime to local time in the given time zone, adjusting to match the given year, month, and day,
-    and return the result as a string.
+    Convert a UTC datetime string to local time in the given time zone, adjusting to match the given year, month, and day.
 
     Parameters:
-    - utc_datetime (datetime): UTC datetime to be converted.
+    - utc_datetime_str (str): UTC datetime in ISO format to be converted.
     - time_zone_name (str): Timezone name.
     - year (int): Year of the desired local date.
     - month (int): Month of the desired local date.
@@ -242,6 +209,10 @@ def convert_utc_to_local(utc_datetime, time_zone_name, year, month, day):
     Returns:
     - str: Local time as a string in 'YYYY-MM-DD HH:MM:SS' format, adjusted to match the given year, month, and day.
     """
+    # Parse the UTC datetime string into a datetime object
+    utc_datetime = datetime.fromisoformat(utc_datetime_str)
+
+    # Convert to the specified timezone
     local_timezone = pytz.timezone(time_zone_name)
     local_datetime = utc_datetime.replace(
         tzinfo=pytz.utc).astimezone(local_timezone)
