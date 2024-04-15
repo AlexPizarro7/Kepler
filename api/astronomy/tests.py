@@ -1,41 +1,51 @@
 from django.test import TestCase
-from astronomy.views import *
+from .views import (
+    get_coordinates, get_timezone,
+    calculate_astronomical_twilight_end_utc, calculate_celestial_body_rise_utc,
+    calculate_celestial_body_culmination_utc, calculate_celestial_body_set_utc,
+    convert_utc_to_local
+)
 
 
-class AstronomyTests(TestCase):
+class AstronomyFunctionTests(TestCase):
+    def test_get_coordinates(self):
+        result = get_coordinates('New York', 'USA')
+        print("Test get_coordinates: Result for New York, USA:", result)
+        self.assertIsNotNone(result)
 
-    def test_mars_rise_and_set_times_in_canberra(self):
-        # Location and date
-        city = "Canberra"
-        country = "Australia"
-        year, month, day = 2024, 4, 1  # April 1, 2024
+    def test_get_timezone(self):
+        result = get_timezone(40.7128, -74.0060)
+        print(
+            "Test get_timezone: Timezone for latitude 40.7128, longitude -74.0060:", result)
+        self.assertEqual(result, 'America/New_York')
 
-        # Get coordinates
-        locations = get_coordinates(city, country)
-        self.assertTrue(locations, "Failed to retrieve coordinates.")
-        selected_location = locations[0]  # Using the first location
+    def test_calculate_astronomical_twilight_end_utc(self):
+        result = calculate_astronomical_twilight_end_utc(
+            2024, 4, 10, 40.7128, -74.0060)
+        print("Test calculate_astronomical_twilight_end_utc: Twilight end for 2024-04-10 in NYC:", result)
+        self.assertIsInstance(result, str)
 
-        # Calculate Mars rise and set times in UTC
-        mars_rise_utc = calculate_planetrise_utc(
-            'Mars', year, month, day, selected_location.latitude, selected_location.longitude)
-        mars_set_utc = calculate_planetset_utc(
-            'Mars', year, month, day, selected_location.latitude, selected_location.longitude)
+    def test_calculate_celestial_body_rise_utc(self):
+        result = calculate_celestial_body_rise_utc(
+            'Sun', 2024, 4, 10, 40.7128, -74.0060)
+        print("Test calculate_celestial_body_rise_utc: Sunrise times for 2024-04-10 in NYC:", result)
+        self.assertTrue(len(result) > 0)
 
-        # Convert to local time
-        time_zone_name = get_timezone(
-            selected_location.latitude, selected_location.longitude)
-        self.assertTrue(time_zone_name, "Failed to retrieve timezone.")
+    def test_calculate_celestial_body_culmination_utc(self):
+        result = calculate_celestial_body_culmination_utc(
+            'Sun', 40.7128, -74.0060, 2024, 4, 10)
+        print("Test calculate_celestial_body_culmination_utc: Sun culmination time for 2024-04-10 in NYC:", result)
+        self.assertIsInstance(result, str)
 
-        for rise_time in mars_rise_utc:
-            mars_rise_local = convert_utc_to_local(
-                rise_time, time_zone_name, year, month, day)
-            print(f"Mars rise time in {city} on {year}-{month:02d}-{day:02d}: {mars_rise_local.strftime(
-                '%Y-%m-%d %I:%M %p')} (local time), {rise_time.strftime('%Y-%m-%d %H:%M:%S')} UTC")
+    def test_calculate_celestial_body_set_utc(self):
+        result = calculate_celestial_body_set_utc(
+            'Sun', 2024, 4, 10, 40.7128, -74.0060)
+        print("Test calculate_celestial_body_set_utc: Sunset times for 2024-04-10 in NYC:", result)
+        self.assertTrue(len(result) > 0)
 
-        for set_time in mars_set_utc:
-            mars_set_local = convert_utc_to_local(
-                set_time, time_zone_name, year, month, day)
-            print(f"Mars set time in {city} on {year}-{month:02d}-{day:02d}: {mars_set_local.strftime(
-                '%Y-%m-%d %I:%M %p')} (local time), {set_time.strftime('%Y-%m-%d %H:%M:%S')} UTC")
-
-# Note: Run this test to get the rise and set times of Mars for Canberra on April 1, 2024.
+    def test_convert_utc_to_local(self):
+        utc_time = '2024-04-10T20:00:00Z'
+        result = convert_utc_to_local(
+            utc_time, 'America/New_York', 2024, 4, 10)
+        print("Test convert_utc_to_local: Local time for 2024-04-10 20:00 UTC in New York:", result)
+        self.assertEqual(result, '2024-04-10 16:00:00')
