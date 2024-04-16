@@ -2,10 +2,20 @@ from django.http import JsonResponse
 from astronomy.views import *
 
 
-def astronomy_data(request, city, country):
+def location_selector(request, city, country):
 
-    print(city)
-    print(country)
+    print(request)
+
+    locations = get_coordinates(city, country)
+
+    
+    data = {
+        "locations": locations
+    }
+
+    return JsonResponse(data)
+
+def astronomy_data(request,lat,long):
 
     print(request)
 
@@ -23,7 +33,6 @@ def astronomy_data(request, city, country):
         year, month, day, latitude, longitude)
 
     data = {
-        "city": city,
         "sunrise": sunrise_utc,
         "sunset": sunset_utc,
         "culmination": culmination_utc,
