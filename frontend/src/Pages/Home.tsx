@@ -15,22 +15,6 @@ function Home() {
             navigate('/calendar')
         }
     }
-
-
-
-    const fetchAstronomyData = (city,country) => {
-        var url='http://localhost:8000/location-selector/'+city+'/'+country;
-        
-        fetch(url).then(response=>response.json())
-        .then(data=>console.log(data)).catch(error=>console.log("FOO: "+error));
-    }
-
-    useEffect(() => {
-        // call api or anything
-        fetchAstronomyData("Chicago","USA");
-        console.log("loaded");
-     });
-
     return (
 
         <div className="flex flex-col content-wrapper">

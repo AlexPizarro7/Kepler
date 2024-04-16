@@ -10,18 +10,22 @@ def location_selector(request, city, country):
 
     
     data = {
-        "locations": locations
+        "city": locations.city,
+        "state": locations.state,
+        "country": locations.country,
+        "latitude": locations.latitude,
+        "longitude": locations.longitude,
     }
 
     return JsonResponse(data)
 
-def astronomy_data(request,lat,long):
+def astronomy_data(request,city,country):
 
     print(request)
 
     year, month, day = 2024, 4, 10  # example date
-    # example coordinates for New York City
-    latitude, longitude = 40.7128, -74.0060
+    # example coordinates for Tyler, Texas
+    latitude, longitude = 32.3513, -95.3011
 
     sunrise_utc = calculate_celestial_body_rise_utc(
         "Sun", year, month, day, latitude, longitude)[0]
