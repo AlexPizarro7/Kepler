@@ -16,16 +16,18 @@ function Home() {
         }
     }
 
-    const fetchAstronomyData = () => {
 
-        fetch('http://localhost:8000/astronomy-data/')
-        .then(response=>response.json())
+
+    const fetchAstronomyData = (city,country) => {
+        var url='http://localhost:8000/astronomy-data/'+city+'/'+country;
+        
+        fetch(url).then(response=>response.json())
         .then(data=>console.log(data)).catch(error=>console.log("FOO: "+error));
     }
 
     useEffect(() => {
         // call api or anything
-        fetchAstronomyData();
+        fetchAstronomyData("Chicago","USA");
         console.log("loaded");
      });
 
