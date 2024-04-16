@@ -21,6 +21,7 @@ function Home() {
         fetch('http://localhost:8000/astronomy-data/')
         .then(response=>response.json())
         .then(data=>console.log(data)).catch(error=>console.log("FOO: "+error));
+
     }
 
     useEffect(() => {

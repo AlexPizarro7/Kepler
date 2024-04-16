@@ -25,7 +25,9 @@ SECRET_KEY = 'django-insecure-l7gz+1@!w739xjcoucpt0!z%7x-!0s_5_kj*$%lo0b)g6)826#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0','127.0.0.1'] # this is the host that Docker uses to run application
+ALLOWED_HOSTS = ['*'] # this is the host that Docker uses to run application
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 # Application definition
 
@@ -40,9 +42,9 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -126,21 +128,3 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-CORS_ALLOW_ALL_ORIGINS = True
-
-CORS_ALLOW_METHODS = [
-    'DELETE',
-    'GET',
-    'POST'
-]
-
-CORS_ALLOW_HEADERS = [
-    '*',
-]
-
-
-CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000',
-    'https://kepler.joshuaduda.com',
-]

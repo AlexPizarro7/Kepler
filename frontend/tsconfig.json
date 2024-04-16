@@ -1,13 +1,13 @@
 {  
     "compilerOptions": {
         "jsx": "react",  
-        "lib": ["dom", "dom.iterable", "esnext"],    
-        "target": "ESNext",    
+        "lib": ["dom", "dom.iterable", "es2020"],    
+        "target": "es6",    
         "types": ["vite/client"],
         "isolatedModules": true,
         "allowSyntheticDefaultImports": true,
         "esModuleInterop": true,
         "moduleResolution": "node",
-        "module": "ES2020",
+        "module": "esnext",
     },
 }

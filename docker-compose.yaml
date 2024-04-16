@@ -4,19 +4,30 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./api:/api
-    command: bash -c "python manage.py runserver 0.0.0.0:8000"
-    
+      - static:/static
+
   web:
     build: ./frontend
     ports:
       - "3000:3000"
     volumes:
-      - ./frontend:/frontend
+      - frontend:/app/build
       - /frontend/node_modules
 
     depends_on:
       - db
+
+  nginx:
+    build: ./nginx
+    volumes:
+      - static:/static
+      - frontend:/var/www/frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - api
+      - web
+
   db:
     image: postgres:16.2
     volumes:
@@ -25,4 +36,6 @@ services:
      - "POSTGRES_HOST_AUTH_METHOD=trust"
 
 volumes:
+  static:
+  frontend:
   postgres_data:
