@@ -16,7 +16,7 @@ export function StarsTest() {
               Learn our mission is and what we have planned for the future.
             </GlowingStarsDescription>
             <div className="h-8 w-8 rounded-full bg-[linear-gradient(110deg,#333_0.6%,#222)] flex items-center justify-center" >
-              <Icon />
+              <a href="/about-us"><Icon /></a>
             </div>
           </div>
         </GlowingStarsBackgroundCard>

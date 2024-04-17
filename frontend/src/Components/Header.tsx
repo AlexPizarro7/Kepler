@@ -57,6 +57,7 @@ function Header() {
             display: ${hamburgerOpen ? 'inline' : 'none'};
             background-color: #0C0C0C;
             height: 25%;
+            min-height: 200px;
             width: 30vw;
             margin-top: 40px;
             padding-top: 40px;
