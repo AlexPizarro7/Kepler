@@ -30,6 +30,7 @@ ALLOWED_HOSTS = ['0.0.0.0','127.0.0.1','localhost'] # this is the host that Dock
 # Application definition
 
 INSTALLED_APPS = [
+    'astronomy.apps.AstronomyConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
