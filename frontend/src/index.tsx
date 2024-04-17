@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import reportWebVitals from './reportWebVitals';
 

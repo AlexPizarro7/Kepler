@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import BackgroundBeamsDemo from '../Components/BBTest';
 import StarsTest from '../Components/Stars';
-import CalendarSection from '../Components/CalendarSection';
+import FeatureSection from '../Components/FeatureSection';
 
 function Home() {
     const navigate = useNavigate();
@@ -30,7 +30,7 @@ function Home() {
             </div>
             <BackgroundBeamsDemo />
             <div className="bg-[linear-gradient(70deg,#000_0.6%,#000b3d)] pt-20 pb-20">
-                <CalendarSection />
+                <FeatureSection />
             </div>
         </div>
     )
