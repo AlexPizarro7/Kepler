@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import reportWebVitals from './reportWebVitals';
 
@@ -16,6 +17,7 @@ import Dashboard from './Pages/Dashboard';
 import NotFound from './Pages/NotFound';
 import Privacy from './Pages/Privacy';
 import AboutUs from './Pages/AboutUs';
+import TermsOfUse from './Pages/TermsOfUse';
 
 // Import your publishable key
 const PUBLISHABLE_KEY :string = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
@@ -35,6 +37,7 @@ const router = createBrowserRouter([
       { path: 'sign-in', element: <SignIn /> },
       { path: 'sign-up', element: <SignUp /> },
       { path: 'privacy', element: <Privacy />},
+      { path: 'terms-of-use', element: <TermsOfUse />},
       { path: 'about-us', element: <AboutUs />},
       { path: '*', element: <NotFound />},
       { 

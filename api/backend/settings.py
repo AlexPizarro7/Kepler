@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-l7gz+1@!w739xjcoucpt0!z%7x-!0s_5_kj*$%lo0b)g6)826#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0','127.0.0.1'] # this is the host that Docker uses to run application
+ALLOWED_HOSTS = ['0.0.0.0','127.0.0.1','localhost'] # this is the host that Docker uses to run application
 
 # Application definition
 
@@ -127,6 +127,20 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'POST'
+]
+
+CORS_ALLOW_HEADERS = [
+    '*',
+]
+
+
 CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000'
+    'http://localhost:3000',
+    'https://kepler.joshuaduda.com',
 ]

@@ -25,7 +25,7 @@ function Footer() {
                 <div className="grid grid-cols-1">
                     <h2>Legal</h2>
                     <a className="ml-[30px] text-sm" href="/privacy">Privacy Policy</a>
-                    <a className="ml-[30px] text-sm" href="/faq">Terms of Use</a>
+                    <a className="ml-[30px] text-sm" href="/terms-of-use">Terms of Use</a>
                 </div>
             </div>
         <p className="ml-[10px] mb-[20px] center text-xs">© 2024 Kepler. All rights reserved.</p>
