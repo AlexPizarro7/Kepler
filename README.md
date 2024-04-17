@@ -20,6 +20,14 @@ We like Docker because it removes your local machine from the equation. Run ever
 
 Be sure to install [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 
+### For development
+For development environments, open up a terminal and ensure you are in the root directory of the repository and then run `docker-compose -f docker-compose.dev.yaml up -d --build`.
+! This will build the required docker containers and start the application in the unoptimized development mode.
+
+### For production
+For production environments, open up a terminal and ensure you are in the root directory of the repository and then run `docker-compose -f docker-compose.yaml up -d --build`.
+! This will build the required docker containers and start the application using the optimized Vite build mode
+
 To build the architecture to your machine run `docker-compose build`
 
 And to run the application simply run `docker-compose up` add the ` -d` option to run the server in the background.
@@ -28,7 +36,11 @@ On first creation be sure to run `docker-compose exec api python manage.py migra
 
 After first launch you will then have to run the proper django commands to update the DB if you are adding tables esc...
 
-To shutdown the server run `docker-compose down` or use [ctrl-c]
+### To Shutdown the Application
+
+To close the server and take down the containers, open a termnial and ensure you are in the root directory and run `docker-compose down` or if you did not start the application in Dameon mode (-d) press the following keys: [ctrl-c]
+
+## Developing in Docker
 
 *If you are adding any new python libraries* when working on the BE since you are technically not running on your local env, you are using docker to virtualize, it's important instead of installing to your local you can just include the library into the requirements.txt directly, our build file will run `pip install` so you do not have to. Afterward you must `docker-compose build` for the machine to install the correct libraries.
 
@@ -36,6 +48,11 @@ To Execute any commands inside the venv as if it's local use when the container 
 `docker-compose exec api {your command}`
 
 You can also use the docker desktop interface to access the terminal visually.
+
+## To Run Django Tests
+Open up a terminal or enter the docker container exec from Docker Desktop GUI for the kepler_api and run the following command `docker-compose exec api python manage.py test`
+! If you used Docker Desktop GUI type the command below
+`python manage.py test`
 
 - To populate the DB
 `docker-compose exec api python manage.py migrate`

@@ -8,9 +8,11 @@ services:
     command: bash -c "python manage.py runserver 0.0.0.0:8000"
     
   web:
-    build: ./kepler
+    build:
+      context: ./kepler
+      dockerfile: Dockerfile.dev
     ports:
-      - "4173:4173"
+      - "3000:3000"
     volumes:
       - ./kepler:/kepler
       - /kepler/node_modules
