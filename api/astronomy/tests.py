@@ -1,51 +1,64 @@
 from django.test import TestCase
-from .views import (
-    get_coordinates, get_timezone,
-    calculate_astronomical_twilight_end_utc, calculate_celestial_body_rise_utc,
-    calculate_celestial_body_culmination_utc, calculate_celestial_body_set_utc,
-    convert_utc_to_local
-)
+from .views import *
 
 
-class AstronomyFunctionTests(TestCase):
-    def test_get_coordinates(self):
-        result = get_coordinates('New York', 'USA')
-        print("Test get_coordinates: Result for New York, USA:", result)
-        self.assertIsNotNone(result)
+class GeocodingLatLongTest(TestCase):
+    def test_print_lat_long(self):
+        # Test the function with a known city and country
+        city = "Molde"
+        country = "Norway"
+        subdivision = "Møre og Romsdal"
+        postal_code = "6400"
 
-    def test_get_timezone(self):
-        result = get_timezone(40.7128, -74.0060)
-        print(
-            "Test get_timezone: Timezone for latitude 40.7128, longitude -74.0060:", result)
-        self.assertEqual(result, 'America/New_York')
+        # Fetch the coordinates
+        locations = get_coordinates(city, country, subdivision, postal_code)
 
-    def test_calculate_astronomical_twilight_end_utc(self):
-        result = calculate_astronomical_twilight_end_utc(
-            2024, 4, 10, 40.7128, -74.0060)
-        print("Test calculate_astronomical_twilight_end_utc: Twilight end for 2024-04-10 in NYC:", result)
-        self.assertIsInstance(result, str)
+        # Extract and print the latitude and longitude of the first location found
+        if locations:
+            first_location = locations[0]  # Get the first location object
+            latitude = first_location.latitude
+            longitude = first_location.longitude
 
-    def test_calculate_celestial_body_rise_utc(self):
-        result = calculate_celestial_body_rise_utc(
-            'Sun', 2024, 4, 10, 40.7128, -74.0060)
-        print("Test calculate_celestial_body_rise_utc: Sunrise times for 2024-04-10 in NYC:", result)
-        self.assertTrue(len(result) > 0)
+            print(f"Latitude: {latitude}, Longitude: {longitude}")
+        else:
+            print("No locations found.")
 
-    def test_calculate_celestial_body_culmination_utc(self):
-        result = calculate_celestial_body_culmination_utc(
-            'Sun', 40.7128, -74.0060, 2024, 4, 10)
-        print("Test calculate_celestial_body_culmination_utc: Sun culmination time for 2024-04-10 in NYC:", result)
-        self.assertIsInstance(result, str)
+    def test_lunar_eclipse_on_specific_date(self):
+        # This is where you define the date you want to test
+        year = 2024
+        month = 9
+        day = 18
 
-    def test_calculate_celestial_body_set_utc(self):
-        result = calculate_celestial_body_set_utc(
-            'Sun', 2024, 4, 10, 40.7128, -74.0060)
-        print("Test calculate_celestial_body_set_utc: Sunset times for 2024-04-10 in NYC:", result)
-        self.assertTrue(len(result) > 0)
+        # Calling the function that checks for lunar eclipses
+        check_if_lunar_eclipse(year, month, day)
 
-    def test_convert_utc_to_local(self):
-        utc_time = '2024-04-10T20:00:00Z'
-        result = convert_utc_to_local(
-            utc_time, 'America/New_York', 2024, 4, 10)
-        print("Test convert_utc_to_local: Local time for 2024-04-10 20:00 UTC in New York:", result)
-        self.assertEqual(result, '2024-04-10 16:00:00')
+    def test_twilight_time(self):
+        # Location details
+        city = "Tyler"
+        state = "Texas"
+        country = "United States"
+        postal_code = "75701"
+
+        # Step 1: Retrieve coordinates
+        location_info = get_coordinates(
+            city, country, subdivision=state, postal_code=postal_code)
+        if location_info is None:
+            print("Failed to get coordinates.")
+        else:
+            # Assume the first result is the most relevant
+            latitude = location_info[0].latitude
+            longitude = location_info[0].longitude
+
+            # Step 2: Get timezone
+            time_zone_name = get_timezone(latitude, longitude)
+
+            # Step 3: Calculate astronomical twilight end time in UTC
+            twilight_end_utc = calculate_astronomical_twilight_end_utc(
+                2024, 4, 18, latitude, longitude)
+
+            # Step 4: Convert UTC time to local time in 12-hour AM/PM format
+            twilight_end_local = convert_utc_to_local(
+                twilight_end_utc, time_zone_name, 2024, 4, 18)
+            twilight_end_local_time_only = datetime.strptime(
+                twilight_end_local, '%Y-%m-%d %H:%M:%S').strftime('%I:%M %p')
+            print("Twilight ends at:", twilight_end_local_time_only)
