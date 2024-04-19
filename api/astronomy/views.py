@@ -1,3 +1,4 @@
+from skyfield.api import Loader
 from datetime import datetime
 import numpy as np
 from astropy.time import Time
@@ -9,16 +10,19 @@ from datetime import datetime, timedelta
 from timezonefinder import TimezoneFinder
 from geopy.exc import GeocoderTimedOut, GeocoderUnavailable, GeocoderServiceError
 from geopy.geocoders import Nominatim
-from skyfield import almanac
+from skyfield import almanac, eclipselib
+from skyfield.almanac import find_discrete
 
 
-def get_coordinates(city, country, max_retries=3):
+def get_coordinates(city, country, subdivision=None, postal_code=None, max_retries=3):
     """
-    Gets the location objects for a city and country.
+    Gets the location objects for a detailed place using city, subdivision, postal code, and country.
 
     Parameters:
     - city (str): The city's name.
     - country (str): The country's name.
+    - subdivision (str): The state, province, or other subdivision. Optional.
+    - postal_code (str): The postal or ZIP code. Optional.
     - max_retries (int): Maximum number of retry attempts for the request.
 
     Returns:
@@ -28,10 +32,20 @@ def get_coordinates(city, country, max_retries=3):
     geolocator = Nominatim(user_agent="AstronomyAppProject")
     attempt = 0
 
+    # Construct the location query based on the presence of optional parameters
+    location_components = [city]
+    if subdivision:
+        location_components.append(subdivision)
+    if postal_code:
+        location_components.append(postal_code)
+    location_components.append(country)
+
+    location_query = ", ".join(filter(None, location_components))
+
     while attempt < max_retries:
         try:
             locations = geolocator.geocode(
-                f"{city}, {country}", exactly_one=False, language='en')
+                location_query, exactly_one=False, language='en')
             if locations:
                 return locations
             else:
@@ -225,3 +239,79 @@ def convert_utc_to_local(utc_datetime_str, time_zone_name, year, month, day):
 
     # Format the datetime object into a string
     return local_datetime.strftime('%Y-%m-%d %H:%M:%S')
+
+
+def get_moon_phase_name(year, month, day):
+    """
+    Calculate the detailed Moon's phase name for a given date.
+
+    Parameters:
+    - year (int): Year.
+    - month (int): Month.
+    - day (int): Day.
+
+    Returns:
+    - str: Detailed name of the Moon phase.
+    """
+    load = Loader('~/.skyfield-data')
+    ts = load.timescale()
+    eph = load('de421.bsp')
+    t = ts.utc(year, month, day)
+    phase_angle = almanac.moon_phase(eph, t).degrees
+
+    # Normalize the phase angle to be within [0, 360) degrees
+    phase_angle = phase_angle % 360
+
+    # Define all Moon phase names based on angle ranges
+    if 0 <= phase_angle < 22.5 or 337.5 <= phase_angle < 360:
+        phase_name = "New Moon"
+    elif 22.5 <= phase_angle < 67.5:
+        phase_name = "Waxing Crescent"
+    elif 67.5 <= phase_angle < 112.5:
+        phase_name = "First Quarter"
+    elif 112.5 <= phase_angle < 157.5:
+        phase_name = "Waxing Gibbous"
+    elif 157.5 <= phase_angle < 202.5:
+        phase_name = "Full Moon"
+    elif 202.5 <= phase_angle < 247.5:
+        phase_name = "Waning Gibbous"
+    elif 247.5 <= phase_angle < 292.5:
+        phase_name = "Last Quarter"
+    elif 292.5 <= phase_angle < 337.5:
+        phase_name = "Waning Crescent"
+
+    return phase_name
+
+
+def check_if_lunar_eclipse(year, month, day):
+    """
+    Checks for lunar eclipses on a specified date and prints the type if one occurs.
+
+    Parameters:
+        year (int): Year to check for an eclipse.
+        month (int): Month to check for an eclipse.
+        day (int): Day to check for an eclipse.
+
+    Returns:
+        None. If an eclipse occurs on the specified date, prints the type of eclipse
+        (e.g., 'Total', 'Partial', 'Penumbral'). If no eclipse occurs, prints nothing.
+
+    """
+    load = Loader('~/.skyfield-data')
+    ts = load.timescale()
+    eph = load('de421.bsp')
+
+    # Create a time range around the given date
+    t0 = ts.utc(year, month, day)
+    t1 = ts.utc(year, month, day + 1)
+
+    # Find lunar eclipses within this range
+    t, y, details = eclipselib.lunar_eclipses(t0, t1, eph)
+
+    # If there are any eclipses on this day, print only the type of eclipse
+    if len(t) > 0:
+        for yi in y:
+            # Get the type of eclipse from the dictionary
+            eclipse_type = eclipselib.LUNAR_ECLIPSES[yi]
+            print(f"There will be a {
+                  eclipse_type} Lunar Eclipse on this date.")
