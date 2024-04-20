@@ -1,14 +1,18 @@
-import React from "react";
+import React,  { useState } from "react";
 
-const CalendarInformation = ({data}) => {
+const CalendarInformation = () => {
 
     return (
+
         <div className="ml-20 mr-20 bg-hero p-[20px] flex flex-col justify-center rounded">
+
             <h2>Today</h2>
-            <p>Sunrise: {data.sunrise}</p>
-            <p>Sunset: {data.sunset}</p>
-            <p>Culmination: {data.culmination}</p>
-            <p>Twilight End: {data.twilight_end}</p>
+            <p>Latitude: {window.localStorage.getItem("Latitude")}</p>
+            <p>Longitude: {window.localStorage.getItem("Longitude")}</p>
+            <p>Sunrise: {window.localStorage.getItem("Sunrise")}</p>
+            <p>Sunset: {window.localStorage.getItem("Sunset")}</p>
+            <p>Culmination: {window.localStorage.getItem("Culmination")}</p>
+            <p>Twilight End: {window.localStorage.getItem("TwilightEnd")}</p>
         </div>
     );
 
