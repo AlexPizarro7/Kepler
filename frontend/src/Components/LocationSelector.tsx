@@ -2,10 +2,7 @@ import React, { useState } from "react";
 import {
     CitySelect,
     CountrySelect,
-    StateSelect,
-    GetCity,
-    GetState,
-    GetCountries
+    StateSelect
 } from "react-country-state-city";
 import "react-country-state-city/dist/react-country-state-city.css";
 import RequestAstronomy from "../AstronomyAPI";
@@ -16,11 +13,18 @@ const queryCelestialEvents = (country, city, state, zip) => {
 
     if (local_date === null) {
         const current_date = new Date();
-        const year = current_date.getFullYear();
-        const month = current_date.getMonth();
-        const day = current_date.getDate();
-        window.localStorage.setItem("selected_date", month +"-"+ day +"-"+ year);
+        const year = current_date.getUTCFullYear();
+        const month = current_date.getUTCMonth()+1;
+        if (month < 10) {
+            var monthStr = "0" + month;
+        }else{
+            monthStr = month.toString();
+        }
+        const day = current_date.getUTCDate();
+        window.localStorage.setItem("selected_date", monthStr  +"-"+ day +"-"+ year);
+        console.log("Local Date: " + local_date);
     }
+
     local_date = window.localStorage.getItem("selected_date");
 
     console.log("Local Date: " + local_date);
@@ -78,7 +82,6 @@ const LocationSelector = () => {
                         countryid={countryid}
                         stateid={stateid}
                         onChange={(e) => {
-                            setCity(GetCity(e.id));
                             setCity(e.name);
                             console.log(e.longitude);
                             console.log(e.latitude);
