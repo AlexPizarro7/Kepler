@@ -12,11 +12,13 @@ from geopy.exc import GeocoderTimedOut, GeocoderUnavailable, GeocoderServiceErro
 from geopy.geocoders import Nominatim
 from skyfield import almanac, eclipselib
 from skyfield.almanac import find_discrete
+import time
 
 
-def get_coordinates(city, country, subdivision=None, postal_code=None, max_retries=3):
+def get_coordinates(city, country, subdivision=None, postal_code=None, max_retries=3, base_delay=1):
     """
     Gets the location objects for a detailed place using city, subdivision, postal code, and country.
+    Implements exponential backoff for retry attempts.
 
     Parameters:
     - city (str): The city's name.
@@ -24,6 +26,7 @@ def get_coordinates(city, country, subdivision=None, postal_code=None, max_retri
     - subdivision (str): The state, province, or other subdivision. Optional.
     - postal_code (str): The postal or ZIP code. Optional.
     - max_retries (int): Maximum number of retry attempts for the request.
+    - base_delay (int): Initial delay between retry attempts in seconds.
 
     Returns:
     - list: A list of location objects or None. Each location object contains attributes like latitude,
@@ -31,6 +34,7 @@ def get_coordinates(city, country, subdivision=None, postal_code=None, max_retri
     """
     geolocator = Nominatim(user_agent="AstronomyAppProject")
     attempt = 0
+    delay = base_delay
 
     # Construct the location query based on the presence of optional parameters
     location_components = [city]
@@ -52,9 +56,11 @@ def get_coordinates(city, country, subdivision=None, postal_code=None, max_retri
                 print("No locations found.")
                 return None
         except (GeocoderTimedOut, GeocoderUnavailable) as e:
+            print(f"Geocoder timed out or unavailable, retrying in {
+                  delay} seconds... ({attempt + 1}/{max_retries}). Error: {e}")
+            time.sleep(delay)  # Wait before retrying
+            delay *= 2  # Exponential backoff
             attempt += 1
-            print(f"Geocoder timed out or unavailable, retrying... ({
-                  attempt}/{max_retries}). Error: {e}")
         except GeocoderServiceError as e:
             print(f"Geocoder service error: {e}")
             return None
@@ -90,7 +96,7 @@ def calculate_astronomical_twilight_end_utc(year, month, day, latitude, longitud
     - longitude (float): Longitude of the location.
 
     Returns:
-    - str: End time of astronomical twilight in UTC as a string.
+    - str or None: End time of astronomical twilight in UTC as a string, or None if not found.
     """
     load = Loader('~/.skyfield-data')
     ts = load.timescale()
@@ -110,12 +116,13 @@ def calculate_astronomical_twilight_end_utc(year, month, day, latitude, longitud
             return time.utc_iso()
         previous_event = event
 
-    return "Twilight end not found."
+    return None  # Return None if no twilight end time is found
 
 
 def calculate_celestial_body_rise_utc(body_name, year, month, day, latitude, longitude):
     """
     Calculate and return the rise times in UTC for a specified date, location, and celestial body, as strings.
+    Returns None if no rise times are found.
 
     Parameters:
     - body_name (str): Name of the celestial body (e.g., 'Sun', 'Moon', 'Mars', 'Jupiter').
@@ -126,7 +133,7 @@ def calculate_celestial_body_rise_utc(body_name, year, month, day, latitude, lon
     - longitude (float): Longitude of the location.
 
     Returns:
-    - list: List of rise times in UTC as ISO formatted strings.
+    - list: List of rise times in UTC as ISO formatted strings, or None if no rise time was found.
     """
     load = Loader('~/.skyfield-data')
     ts = load.timescale()
@@ -138,14 +145,20 @@ def calculate_celestial_body_rise_utc(body_name, year, month, day, latitude, lon
     t0 = ts.utc(year, month, day)
     t1 = ts.utc(year, month, day + 1)
 
-    t, _ = almanac.find_risings(observer, body, t0, t1)
-    return [ti.utc_iso() for ti in t]
+    try:
+        t, _ = almanac.find_risings(observer, body, t0, t1)
+        if t:  # Check if the list is not empty
+            return [ti.utc_iso() for ti in t]
+    except IndexError:  # Catch the case where no risings are found and an empty list is returned
+        pass
+    return None  # Return None if no times were found
 
 
 def calculate_celestial_body_culmination_utc(planet_name, latitude, longitude, year, month, day):
     """
     Calculate the meridian transit (time when the planet is highest in the sky) 
-    also known as culmination,for a given location and date, and return it as a string.
+    also known as culmination, for a given location and date, and return it as a string.
+    If no meridian transit is found, return None instead of a string message.
 
     Parameters:
     - planet_name (str): The name of the planet (e.g., 'Mars', 'Jupiter').
@@ -156,7 +169,7 @@ def calculate_celestial_body_culmination_utc(planet_name, latitude, longitude, y
     - day (int): The day of observation.
 
     Returns:
-    - str: The time of the meridian transit (culmination) in UTC as a string.
+    - str: The time of the meridian transit (culmination) in UTC as a string, or None if not found.
     """
     from skyfield import almanac
 
@@ -173,16 +186,17 @@ def calculate_celestial_body_culmination_utc(planet_name, latitude, longitude, y
     f = almanac.meridian_transits(eph, planet, observer)
     times, events = almanac.find_discrete(t0, t1, f)
 
-    for t, event in zip(times, events):
+    for time, event in zip(times, events):
         if event == 1:  # 1 indicates meridian transit
-            return t.utc_iso()
+            return time.utc_iso()
 
-    return "Meridian transit not found."
+    return None  # Return None if no transit is found
 
 
 def calculate_celestial_body_set_utc(body_name, year, month, day, latitude, longitude):
     """
     Calculate and return the setting times in UTC for a specified date, location, and celestial body, as strings.
+    Returns None if no setting times are found.
 
     Parameters:
     - body_name (str): Name of the celestial body (e.g., 'Sun', 'Mars', 'Jupiter').
@@ -193,7 +207,7 @@ def calculate_celestial_body_set_utc(body_name, year, month, day, latitude, long
     - longitude (float): Longitude of the location.
 
     Returns:
-    - list: List of setting times in UTC as ISO formatted strings.
+    - list: List of setting times in UTC as ISO formatted strings, or None if no setting time was found.
     """
     load = Loader('~/.skyfield-data')
     ts = load.timescale()
@@ -205,13 +219,19 @@ def calculate_celestial_body_set_utc(body_name, year, month, day, latitude, long
     t0 = ts.utc(year, month, day)
     t1 = ts.utc(year, month, day + 1)
 
-    t, _ = almanac.find_settings(observer, body, t0, t1)
-    return [ti.utc_iso() for ti in t]
+    try:
+        t, _ = almanac.find_settings(observer, body, t0, t1)
+        if t:  # Check if the list is not empty
+            return [ti.utc_iso() for ti in t]
+    except IndexError:  # Catch the case where no settings are found and an empty list is returned
+        pass
+    return None  # Return None if no times were found
 
 
 def convert_utc_to_local(utc_datetime_str, time_zone_name, year, month, day):
     """
     Convert a UTC datetime string to local time in the given time zone, adjusting to match the given year, month, and day.
+    Handles cases where the input is not a valid UTC datetime string by returning None.
 
     Parameters:
     - utc_datetime_str (str): UTC datetime in ISO format to be converted.
@@ -222,9 +242,14 @@ def convert_utc_to_local(utc_datetime_str, time_zone_name, year, month, day):
 
     Returns:
     - str: Local time as a string in 'YYYY-MM-DD HH:MM:SS' format, adjusted to match the given year, month, and day.
+            Returns None if the input is not a valid UTC datetime string.
     """
-    # Parse the UTC datetime string into a datetime object
-    utc_datetime = datetime.fromisoformat(utc_datetime_str)
+    try:
+        # Parse the UTC datetime string into a datetime object
+        utc_datetime = datetime.fromisoformat(utc_datetime_str)
+    except ValueError:
+        # Handle cases where the input is not a valid UTC datetime string
+        return None
 
     # Convert to the specified timezone
     local_timezone = pytz.timezone(time_zone_name)
