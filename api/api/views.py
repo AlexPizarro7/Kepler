@@ -45,15 +45,20 @@ def location_selector_city(request, country, city, selected_date):
         mars_set_utc = calculate_celestial_body_set_utc("Mars", year, month, day, latitude, longitude)[0]
         mars_culmination_utc = calculate_celestial_body_culmination_utc("Mars", latitude, longitude, year, month, day)
 
+         # Neptune rise, set, culmination
+        neptune_rise_utc = calculate_celestial_body_rise_utc("Neptune barycenter", year, month, day, latitude, longitude)[0]
+        neptune_set_utc = calculate_celestial_body_set_utc("Neptune barycenter", year, month, day, latitude, longitude)[0]
+        neptune_culmination_utc = calculate_celestial_body_culmination_utc("Neptune barycenter", latitude, longitude, year, month, day)
+        
         # Jupiter rise, set, culmination
-        # jupiter_rise_utc = calculate_celestial_body_rise_utc("5 JUPITER BARYCENTER", year, month, day, latitude, longitude)[0]
-        # jupiter_set_utc = calculate_celestial_body_set_utc("5 JUPITER BARYCENTER", year, month, day, latitude, longitude)[0]
-        # jupiter_culmination_utc = calculate_celestial_body_culmination_utc("5 JUPITER BARYCENTERr", latitude, longitude, year, month, day)
+        jupiter_rise_utc = calculate_celestial_body_rise_utc("Jupiter barycenter", year, month, day, latitude, longitude)[0]
+        jupiter_set_utc = calculate_celestial_body_set_utc("Jupiter barycenter", year, month, day, latitude, longitude)[0]
+        jupiter_culmination_utc = calculate_celestial_body_culmination_utc("Jupiter barycenter", latitude, longitude, year, month, day)
 
         # Saturn rise, set, culmination
-        # saturn_rise_utc = calculate_celestial_body_rise_utc("Saturn", year, month, day, latitude, longitude)[0]
-        # saturn_set_utc = calculate_celestial_body_set_utc("Saturn", year, month, day, latitude, longitude)[0]
-        # saturn_culmination_utc = calculate_celestial_body_culmination_utc("Saturn", latitude, longitude, year, month, day)
+        saturn_rise_utc = calculate_celestial_body_rise_utc("Saturn barycenter", year, month, day, latitude, longitude)[0]
+        saturn_set_utc = calculate_celestial_body_set_utc("Saturn barycenter", year, month, day, latitude, longitude)[0]
+        saturn_culmination_utc = calculate_celestial_body_culmination_utc("Saturn barycenter", latitude, longitude, year, month, day)
         
         location = {
             "Latitude": latitude,
@@ -74,12 +79,15 @@ def location_selector_city(request, country, city, selected_date):
             "MarsRise": mars_rise_utc,
             "MarsSet": mars_set_utc,
             "MarsCulmination": mars_culmination_utc,
-            # "JupiterRise": jupiter_rise_utc,
-            # "JupiterSet": jupiter_set_utc,
-            # "JupiterCulmination": jupiter_culmination_utc,
-            # "SaturnRise": saturn_rise_utc,
-            # "SaturnSet": saturn_set_utc,
-            # "SaturnCulmination": saturn_culmination_utc
+            "JupiterRise": jupiter_rise_utc,
+            "JupiterSet": jupiter_set_utc,
+            "JupiterCulmination": jupiter_culmination_utc,
+            "SaturnRise": saturn_rise_utc,
+            "SaturnSet": saturn_set_utc,
+            "SaturnCulmination": saturn_culmination_utc,
+            "NeptuneRise": neptune_rise_utc,
+            "NeptuneSet": neptune_set_utc,
+            "NeptuneCulmination": neptune_culmination_utc
         }
     else:
         location = {
@@ -130,15 +138,20 @@ def location_selector_state(request, country, city, state, selected_date):
         mars_set_utc = calculate_celestial_body_set_utc("Mars", year, month, day, latitude, longitude)[0]
         mars_culmination_utc = calculate_celestial_body_culmination_utc("Mars", latitude, longitude, year, month, day)
 
+        # Neptune rise, set, culmination
+        neptune_rise_utc = calculate_celestial_body_rise_utc("Neptune barycenter", year, month, day, latitude, longitude)[0]
+        neptune_set_utc = calculate_celestial_body_set_utc("Neptune barycenter", year, month, day, latitude, longitude)[0]
+        neptune_culmination_utc = calculate_celestial_body_culmination_utc("Neptune barycenter", latitude, longitude, year, month, day)
+        
         # Jupiter rise, set, culmination
-        # jupiter_rise_utc = calculate_celestial_body_rise_utc("5 JUPITER BARYCENTER", year, month, day, latitude, longitude)[0]
-        # jupiter_set_utc = calculate_celestial_body_set_utc("5 JUPITER BARYCENTER", year, month, day, latitude, longitude)[0]
-        # jupiter_culmination_utc = calculate_celestial_body_culmination_utc("5 JUPITER BARYCENTER", latitude, longitude, year, month, day)
+        jupiter_rise_utc = calculate_celestial_body_rise_utc("Jupiter barycenter", year, month, day, latitude, longitude)[0]
+        jupiter_set_utc = calculate_celestial_body_set_utc("Jupiter barycenter", year, month, day, latitude, longitude)[0]
+        jupiter_culmination_utc = calculate_celestial_body_culmination_utc("Jupiter barycenter", latitude, longitude, year, month, day)
 
         # Saturn rise, set, culmination
-        # saturn_rise_utc = calculate_celestial_body_rise_utc("Saturn", year, month, day, latitude, longitude)[0]
-        # saturn_set_utc = calculate_celestial_body_set_utc("Saturn", year, month, day, latitude, longitude)[0]
-        # saturn_culmination_utc = calculate_celestial_body_culmination_utc("Saturn", latitude, longitude, year, month, day)
+        saturn_rise_utc = calculate_celestial_body_rise_utc("Saturn barycenter", year, month, day, latitude, longitude)[0]
+        saturn_set_utc = calculate_celestial_body_set_utc("Saturn barycenter", year, month, day, latitude, longitude)[0]
+        saturn_culmination_utc = calculate_celestial_body_culmination_utc("Saturn barycenter", latitude, longitude, year, month, day)
         
         location = {
             "Latitude": latitude,
@@ -159,12 +172,15 @@ def location_selector_state(request, country, city, state, selected_date):
             "MarsRise": mars_rise_utc,
             "MarsSet": mars_set_utc,
             "MarsCulmination": mars_culmination_utc,
-            # "JupiterRise": jupiter_rise_utc,
-            # "JupiterSet": jupiter_set_utc,
-            # "JupiterCulmination": jupiter_culmination_utc,
-            # "SaturnRise": saturn_rise_utc,
-            # "SaturnSet": saturn_set_utc,
-            # "SaturnCulmination": saturn_culmination_utc
+            "JupiterRise": jupiter_rise_utc,
+            "JupiterSet": jupiter_set_utc,
+            "JupiterCulmination": jupiter_culmination_utc,
+            "SaturnRise": saturn_rise_utc,
+            "SaturnSet": saturn_set_utc,
+            "SaturnCulmination": saturn_culmination_utc,
+            "NeptuneRise": neptune_rise_utc,
+            "NeptuneSet": neptune_set_utc,
+            "NeptuneCulmination": neptune_culmination_utc
         }
     else:
         location = {
@@ -214,16 +230,21 @@ def location_selector_zip(request, country, city, state, zipcode, selected_date)
         mars_rise_utc = calculate_celestial_body_rise_utc("Mars", year, month, day, latitude, longitude)[0]
         mars_set_utc = calculate_celestial_body_set_utc("Mars", year, month, day, latitude, longitude)[0]
         mars_culmination_utc = calculate_celestial_body_culmination_utc("Mars", latitude, longitude, year, month, day)
-
+        
+        # Neptune rise, set, culmination
+        neptune_rise_utc = calculate_celestial_body_rise_utc("Neptune barycenter", year, month, day, latitude, longitude)[0]
+        neptune_set_utc = calculate_celestial_body_set_utc("Neptune barycenter", year, month, day, latitude, longitude)[0]
+        neptune_culmination_utc = calculate_celestial_body_culmination_utc("Neptune barycenter", latitude, longitude, year, month, day)
+        
         # Jupiter rise, set, culmination
-        # jupiter_rise_utc = calculate_celestial_body_rise_utc("5 JUPITER BARYCENTER", year, month, day, latitude, longitude)[0]
-        # jupiter_set_utc = calculate_celestial_body_set_utc("5 JUPITER BARYCENTER", year, month, day, latitude, longitude)[0]
-        # jupiter_culmination_utc = calculate_celestial_body_culmination_utc("5 JUPITER BARYCENTER", latitude, longitude, year, month, day)
+        jupiter_rise_utc = calculate_celestial_body_rise_utc("Jupiter barycenter", year, month, day, latitude, longitude)[0]
+        jupiter_set_utc = calculate_celestial_body_set_utc("Jupiter barycenter", year, month, day, latitude, longitude)[0]
+        jupiter_culmination_utc = calculate_celestial_body_culmination_utc("Jupiter barycenter", latitude, longitude, year, month, day)
 
         # Saturn rise, set, culmination
-        # saturn_rise_utc = calculate_celestial_body_rise_utc("Saturn", year, month, day, latitude, longitude)[0]
-        # saturn_set_utc = calculate_celestial_body_set_utc("Saturn", year, month, day, latitude, longitude)[0]
-        # saturn_culmination_utc = calculate_celestial_body_culmination_utc("Saturn", latitude, longitude, year, month, day)
+        saturn_rise_utc = calculate_celestial_body_rise_utc("Saturn barycenter", year, month, day, latitude, longitude)[0]
+        saturn_set_utc = calculate_celestial_body_set_utc("Saturn barycenter", year, month, day, latitude, longitude)[0]
+        saturn_culmination_utc = calculate_celestial_body_culmination_utc("Saturn barycenter", latitude, longitude, year, month, day)
         
         location = {
             "Latitude": latitude,
@@ -244,12 +265,15 @@ def location_selector_zip(request, country, city, state, zipcode, selected_date)
             "MarsRise": mars_rise_utc,
             "MarsSet": mars_set_utc,
             "MarsCulmination": mars_culmination_utc,
-            # "JupiterRise": jupiter_rise_utc,
-            # "JupiterSet": jupiter_set_utc,
-            # "JupiterCulmination": jupiter_culmination_utc,
-            # "SaturnRise": saturn_rise_utc,
-            # "SaturnSet": saturn_set_utc,
-            # "SaturnCulmination": saturn_culmination_utc
+            "JupiterRise": jupiter_rise_utc,
+            "JupiterSet": jupiter_set_utc,
+            "JupiterCulmination": jupiter_culmination_utc,
+            "SaturnRise": saturn_rise_utc,
+            "SaturnSet": saturn_set_utc,
+            "SaturnCulmination": saturn_culmination_utc,
+            "NeptuneRise": neptune_rise_utc,
+            "NeptuneSet": neptune_set_utc,
+            "NeptuneCulmination": neptune_culmination_utc
         }
     else:
         location = {

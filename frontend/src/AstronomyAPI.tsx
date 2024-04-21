@@ -8,6 +8,8 @@ export default function RequestAstronomy(country, city, state, zip, date) {
     var url='http://localhost:8000/location-selector/'+country+'/'+city+'/'+state+'/'+zip+'/'+date;
   }
 
+  // @TODO: Fetch an entire month and create a function to stringify an item into localstorage and another helper function to parse it so we can consolidate local storage.
+
 
     return fetch(url)
       .then(response=>response.json())
@@ -31,12 +33,14 @@ export default function RequestAstronomy(country, city, state, zip, date) {
           window.localStorage.setItem("MarsRise", result.MarsRise.substring(0, result.MarsRise.length - 1));
           window.localStorage.setItem("MarsSet", result.MarsSet.substring(0, result.MarsSet.length - 1));
           window.localStorage.setItem("MarsCulmination", result.MarsCulmination.substring(0, result.MarsCulmination.length - 1));
-          // window.localStorage.setItem("JupiterRise", result.JupiterRise.substring(0, result.JupiterRise.length - 1));
-          // window.localStorage.setItem("JupiterSet", result.JupiterSet.substring(0, result.JupiterSet.length - 1));
-          // window.localStorage.setItem("JupiterCulmination", result.JupiterCulmination.substring(0, result.JupiterCulmination.length - 1));
-          // window.localStorage.setItem("SaturnRise", result.SaturnRise.substring(0, result.SaturnRise.length - 1));
-          // window.localStorage.setItem("SaturnSet", result.SaturnSet.substring(0, result.SaturnSet.length - 1));
-          // window.localStorage.setItem("SaturnCulmination", result.SaturnCulmination.substring(0, result.SaturnCulmination.length - 1));
+          window.localStorage.setItem("JupiterRise", result.JupiterRise.substring(0, result.JupiterRise.length - 1));
+          window.localStorage.setItem("JupiterSet", result.JupiterSet.substring(0, result.JupiterSet.length - 1));
+          window.localStorage.setItem("JupiterCulmination", result.JupiterCulmination.substring(0, result.JupiterCulmination.length - 1));
+          window.localStorage.setItem("SaturnRise", result.SaturnRise.substring(0, result.SaturnRise.length - 1));
+          window.localStorage.setItem("SaturnSet", result.SaturnSet.substring(0, result.SaturnSet.length - 1));
+          window.localStorage.setItem("SaturnCulmination", result.SaturnCulmination.substring(0, result.SaturnCulmination.length - 1));
+          window.localStorage.setItem("NeptuneRise", result.NeptuneRise.substring(0, result.NeptuneRise.length - 1));
+          window.localStorage.setItem("NeptuneSet", result.NeptuneSet.substring(0, result.NeptuneSet.length - 1));
           window.dispatchEvent(new Event('storage'))
           console.log(result); // This returns an object
           return result; // This returns undefined
