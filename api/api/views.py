@@ -23,7 +23,6 @@ def location_selector_city(request, country, city, selected_date):
         sunrise_utc = calculate_celestial_body_rise_utc("Sun", year, month, day, latitude, longitude)[0]
         sunset_utc = calculate_celestial_body_set_utc("Sun", year, month, day, latitude, longitude)[0]
         culmination_utc = calculate_celestial_body_culmination_utc("Sun", latitude, longitude, year, month, day)
-        twilight_end_utc = calculate_astronomical_twilight_end_utc(year, month, day, latitude, longitude)
 
         # Moonrise, moonset, moon culmination
         moonrise_utc = calculate_celestial_body_rise_utc("Moon", year, month, day, latitude, longitude)[0]
@@ -59,35 +58,38 @@ def location_selector_city(request, country, city, selected_date):
         saturn_rise_utc = calculate_celestial_body_rise_utc("Saturn barycenter", year, month, day, latitude, longitude)[0]
         saturn_set_utc = calculate_celestial_body_set_utc("Saturn barycenter", year, month, day, latitude, longitude)[0]
         saturn_culmination_utc = calculate_celestial_body_culmination_utc("Saturn barycenter", latitude, longitude, year, month, day)
-        
+
+        timezone = get_timezone(latitude, longitude)
+
         location = {
             "Latitude": latitude,
             "Longitude": longitude,
-            "Sunrise": sunrise_utc,
-            "Sunset": sunset_utc,
-            "SunCulmination": culmination_utc,
-            "SunTwilightEnd": twilight_end_utc,
-            "Moonrise": moonrise_utc,
-            "Moonset": moonset_utc,
-            "MoonCulmination": moon_culmination_utc,
-            "MercuryRise": mercury_rise_utc,
-            "MercurySet": mercury_set_utc,
-            "MercuryCulmination": mercury_culmination_utc,
-            "VenusRise": venus_rise_utc,
-            "VenusSet": venus_set_utc,
-            "VenusCulmination": venus_culmination_utc,
-            "MarsRise": mars_rise_utc,
-            "MarsSet": mars_set_utc,
-            "MarsCulmination": mars_culmination_utc,
-            "JupiterRise": jupiter_rise_utc,
-            "JupiterSet": jupiter_set_utc,
-            "JupiterCulmination": jupiter_culmination_utc,
-            "SaturnRise": saturn_rise_utc,
-            "SaturnSet": saturn_set_utc,
-            "SaturnCulmination": saturn_culmination_utc,
-            "NeptuneRise": neptune_rise_utc,
-            "NeptuneSet": neptune_set_utc,
-            "NeptuneCulmination": neptune_culmination_utc
+            "MoonPhase": get_moon_phase_name(year, month, day),
+            "LunarEclipse": check_if_lunar_eclipse(year, month, day),
+            "Sunrise": convert_utc_to_local(sunrise_utc, timezone, year, month, day),
+            "Sunset": convert_utc_to_local(sunset_utc, timezone, year, month, day),
+            "SunCulmination": convert_utc_to_local(culmination_utc, timezone, year, month, day),
+            "MoonRise": convert_utc_to_local(moonrise_utc, timezone, year, month, day),
+            "MoonSet": convert_utc_to_local(moonset_utc, timezone, year, month, day),
+            "MoonCulmination": convert_utc_to_local(moon_culmination_utc, timezone, year, month, day),
+            "MercuryRise": convert_utc_to_local(mercury_rise_utc, timezone, year, month, day),
+            "MercurySet": convert_utc_to_local(mercury_set_utc, timezone, year, month, day),
+            "MercuryCulmination": convert_utc_to_local(mercury_culmination_utc, timezone, year, month, day),
+            "VenusRise": convert_utc_to_local(venus_rise_utc, timezone, year, month, day),
+            "VenusSet": convert_utc_to_local(venus_set_utc, timezone, year, month, day),
+            "VenusCulmination": convert_utc_to_local(venus_culmination_utc, timezone, year, month, day),
+            "MarsRise": convert_utc_to_local(mars_rise_utc, timezone, year, month, day),
+            "MarsSet": convert_utc_to_local(mars_set_utc, timezone, year, month, day),
+            "MarsCulmination": convert_utc_to_local(mars_culmination_utc, timezone, year, month, day),
+            "JupiterRise": convert_utc_to_local(jupiter_rise_utc, timezone, year, month, day),
+            "JupiterSet": convert_utc_to_local(jupiter_set_utc, timezone, year, month, day),
+            "JupiterCulmination": convert_utc_to_local(jupiter_culmination_utc, timezone, year, month, day),
+            "SaturnRise": convert_utc_to_local(saturn_rise_utc, timezone, year, month, day),
+            "SaturnSet": convert_utc_to_local(saturn_set_utc, timezone, year, month, day),
+            "SaturnCulmination": convert_utc_to_local(saturn_culmination_utc, timezone, year, month, day),
+            "NeptuneRise": convert_utc_to_local(neptune_rise_utc, timezone, year, month, day),
+            "NeptuneSet": convert_utc_to_local(neptune_set_utc, timezone, year, month, day),
+            "NeptuneCulmination": convert_utc_to_local(neptune_culmination_utc, timezone, year, month, day)
         }
     else:
         location = {
@@ -116,7 +118,6 @@ def location_selector_state(request, country, city, state, selected_date):
         sunrise_utc = calculate_celestial_body_rise_utc("Sun", year, month, day, latitude, longitude)[0]
         sunset_utc = calculate_celestial_body_set_utc("Sun", year, month, day, latitude, longitude)[0]
         culmination_utc = calculate_celestial_body_culmination_utc("Sun", latitude, longitude, year, month, day)
-        twilight_end_utc = calculate_astronomical_twilight_end_utc(year, month, day, latitude, longitude)
 
         # Moonrise, moonset, moon culmination
         moonrise_utc = calculate_celestial_body_rise_utc("Moon", year, month, day, latitude, longitude)[0]
@@ -152,35 +153,38 @@ def location_selector_state(request, country, city, state, selected_date):
         saturn_rise_utc = calculate_celestial_body_rise_utc("Saturn barycenter", year, month, day, latitude, longitude)[0]
         saturn_set_utc = calculate_celestial_body_set_utc("Saturn barycenter", year, month, day, latitude, longitude)[0]
         saturn_culmination_utc = calculate_celestial_body_culmination_utc("Saturn barycenter", latitude, longitude, year, month, day)
-        
+
+        timezone = get_timezone(latitude, longitude)
+
         location = {
             "Latitude": latitude,
             "Longitude": longitude,
-            "Sunrise": sunrise_utc,
-            "Sunset": sunset_utc,
-            "SunCulmination": culmination_utc,
-            "SunTwilightEnd": twilight_end_utc,
-            "Moonrise": moonrise_utc,
-            "Moonset": moonset_utc,
-            "MoonCulmination": moon_culmination_utc,
-            "MercuryRise": mercury_rise_utc,
-            "MercurySet": mercury_set_utc,
-            "MercuryCulmination": mercury_culmination_utc,
-            "VenusRise": venus_rise_utc,
-            "VenusSet": venus_set_utc,
-            "VenusCulmination": venus_culmination_utc,
-            "MarsRise": mars_rise_utc,
-            "MarsSet": mars_set_utc,
-            "MarsCulmination": mars_culmination_utc,
-            "JupiterRise": jupiter_rise_utc,
-            "JupiterSet": jupiter_set_utc,
-            "JupiterCulmination": jupiter_culmination_utc,
-            "SaturnRise": saturn_rise_utc,
-            "SaturnSet": saturn_set_utc,
-            "SaturnCulmination": saturn_culmination_utc,
-            "NeptuneRise": neptune_rise_utc,
-            "NeptuneSet": neptune_set_utc,
-            "NeptuneCulmination": neptune_culmination_utc
+            "MoonPhase": get_moon_phase_name(year, month, day),
+            "LunarEclipse": check_if_lunar_eclipse(year, month, day),
+            "Sunrise": convert_utc_to_local(sunrise_utc, timezone, year, month, day),
+            "Sunset": convert_utc_to_local(sunset_utc, timezone, year, month, day),
+            "SunCulmination": convert_utc_to_local(culmination_utc, timezone, year, month, day),
+            "MoonRise": convert_utc_to_local(moonrise_utc, timezone, year, month, day),
+            "MoonSet": convert_utc_to_local(moonset_utc, timezone, year, month, day),
+            "MoonCulmination": convert_utc_to_local(moon_culmination_utc, timezone, year, month, day),
+            "MercuryRise": convert_utc_to_local(mercury_rise_utc, timezone, year, month, day),
+            "MercurySet": convert_utc_to_local(mercury_set_utc, timezone, year, month, day),
+            "MercuryCulmination": convert_utc_to_local(mercury_culmination_utc, timezone, year, month, day),
+            "VenusRise": convert_utc_to_local(venus_rise_utc, timezone, year, month, day),
+            "VenusSet": convert_utc_to_local(venus_set_utc, timezone, year, month, day),
+            "VenusCulmination": convert_utc_to_local(venus_culmination_utc, timezone, year, month, day),
+            "MarsRise": convert_utc_to_local(mars_rise_utc, timezone, year, month, day),
+            "MarsSet": convert_utc_to_local(mars_set_utc, timezone, year, month, day),
+            "MarsCulmination": convert_utc_to_local(mars_culmination_utc, timezone, year, month, day),
+            "JupiterRise": convert_utc_to_local(jupiter_rise_utc, timezone, year, month, day),
+            "JupiterSet": convert_utc_to_local(jupiter_set_utc, timezone, year, month, day),
+            "JupiterCulmination": convert_utc_to_local(jupiter_culmination_utc, timezone, year, month, day),
+            "SaturnRise": convert_utc_to_local(saturn_rise_utc, timezone, year, month, day),
+            "SaturnSet": convert_utc_to_local(saturn_set_utc, timezone, year, month, day),
+            "SaturnCulmination": convert_utc_to_local(saturn_culmination_utc, timezone, year, month, day),
+            "NeptuneRise": convert_utc_to_local(neptune_rise_utc, timezone, year, month, day),
+            "NeptuneSet": convert_utc_to_local(neptune_set_utc, timezone, year, month, day),
+            "NeptuneCulmination": convert_utc_to_local(neptune_culmination_utc, timezone, year, month, day)
         }
     else:
         location = {
@@ -209,7 +213,6 @@ def location_selector_zip(request, country, city, state, zipcode, selected_date)
         sunrise_utc = calculate_celestial_body_rise_utc("Sun", year, month, day, latitude, longitude)[0]
         sunset_utc = calculate_celestial_body_set_utc("Sun", year, month, day, latitude, longitude)[0]
         culmination_utc = calculate_celestial_body_culmination_utc("Sun", latitude, longitude, year, month, day)
-        twilight_end_utc = calculate_astronomical_twilight_end_utc(year, month, day, latitude, longitude)
 
         # Moonrise, moonset, moon culmination
         moonrise_utc = calculate_celestial_body_rise_utc("Moon", year, month, day, latitude, longitude)[0]
@@ -245,35 +248,38 @@ def location_selector_zip(request, country, city, state, zipcode, selected_date)
         saturn_rise_utc = calculate_celestial_body_rise_utc("Saturn barycenter", year, month, day, latitude, longitude)[0]
         saturn_set_utc = calculate_celestial_body_set_utc("Saturn barycenter", year, month, day, latitude, longitude)[0]
         saturn_culmination_utc = calculate_celestial_body_culmination_utc("Saturn barycenter", latitude, longitude, year, month, day)
-        
+
+        timezone = get_timezone(latitude, longitude)
+
         location = {
             "Latitude": latitude,
             "Longitude": longitude,
-            "Sunrise": sunrise_utc,
-            "Sunset": sunset_utc,
-            "SunCulmination": culmination_utc,
-            "SunTwilightEnd": twilight_end_utc,
-            "Moonrise": moonrise_utc,
-            "Moonset": moonset_utc,
-            "MoonCulmination": moon_culmination_utc,
-            "MercuryRise": mercury_rise_utc,
-            "MercurySet": mercury_set_utc,
-            "MercuryCulmination": mercury_culmination_utc,
-            "VenusRise": venus_rise_utc,
-            "VenusSet": venus_set_utc,
-            "VenusCulmination": venus_culmination_utc,
-            "MarsRise": mars_rise_utc,
-            "MarsSet": mars_set_utc,
-            "MarsCulmination": mars_culmination_utc,
-            "JupiterRise": jupiter_rise_utc,
-            "JupiterSet": jupiter_set_utc,
-            "JupiterCulmination": jupiter_culmination_utc,
-            "SaturnRise": saturn_rise_utc,
-            "SaturnSet": saturn_set_utc,
-            "SaturnCulmination": saturn_culmination_utc,
-            "NeptuneRise": neptune_rise_utc,
-            "NeptuneSet": neptune_set_utc,
-            "NeptuneCulmination": neptune_culmination_utc
+            "MoonPhase": get_moon_phase_name(year, month, day),
+            "LunarEclipse": check_if_lunar_eclipse(year, month, day),
+            "Sunrise": convert_utc_to_local(sunrise_utc, timezone, year, month, day),
+            "Sunset": convert_utc_to_local(sunset_utc, timezone, year, month, day),
+            "SunCulmination": convert_utc_to_local(culmination_utc, timezone, year, month, day),
+            "MoonRise": convert_utc_to_local(moonrise_utc, timezone, year, month, day),
+            "MoonSet": convert_utc_to_local(moonset_utc, timezone, year, month, day),
+            "MoonCulmination": convert_utc_to_local(moon_culmination_utc, timezone, year, month, day),
+            "MercuryRise": convert_utc_to_local(mercury_rise_utc, timezone, year, month, day),
+            "MercurySet": convert_utc_to_local(mercury_set_utc, timezone, year, month, day),
+            "MercuryCulmination": convert_utc_to_local(mercury_culmination_utc, timezone, year, month, day),
+            "VenusRise": convert_utc_to_local(venus_rise_utc, timezone, year, month, day),
+            "VenusSet": convert_utc_to_local(venus_set_utc, timezone, year, month, day),
+            "VenusCulmination": convert_utc_to_local(venus_culmination_utc, timezone, year, month, day),
+            "MarsRise": convert_utc_to_local(mars_rise_utc, timezone, year, month, day),
+            "MarsSet": convert_utc_to_local(mars_set_utc, timezone, year, month, day),
+            "MarsCulmination": convert_utc_to_local(mars_culmination_utc, timezone, year, month, day),
+            "JupiterRise": convert_utc_to_local(jupiter_rise_utc, timezone, year, month, day),
+            "JupiterSet": convert_utc_to_local(jupiter_set_utc, timezone, year, month, day),
+            "JupiterCulmination": convert_utc_to_local(jupiter_culmination_utc, timezone, year, month, day),
+            "SaturnRise": convert_utc_to_local(saturn_rise_utc, timezone, year, month, day),
+            "SaturnSet": convert_utc_to_local(saturn_set_utc, timezone, year, month, day),
+            "SaturnCulmination": convert_utc_to_local(saturn_culmination_utc, timezone, year, month, day),
+            "NeptuneRise": convert_utc_to_local(neptune_rise_utc, timezone, year, month, day),
+            "NeptuneSet": convert_utc_to_local(neptune_set_utc, timezone, year, month, day),
+            "NeptuneCulmination": convert_utc_to_local(neptune_culmination_utc, timezone, year, month, day)
         }
     else:
         location = {

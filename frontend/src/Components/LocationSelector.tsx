@@ -22,22 +22,21 @@ const queryCelestialEvents = (country, city, state, zip) => {
         }
         const day = current_date.getUTCDate();
         window.localStorage.setItem("selected_date", monthStr  +"-"+ day +"-"+ year);
-        console.log("Local Date: " + local_date);
     }
 
     local_date = window.localStorage.getItem("selected_date");
+
+    if (window.localStorage.getItem("selected_location") === city+", "+state+" "+country) {
+        window.localStorage.setItem("newLocation", "false");
+    }else {
+        window.localStorage.setItem("newLocation", "true");
+    }
 
     if (state === "") {  
         window.localStorage.setItem("selected_location", city+" "+ country);
     } else {
         window.localStorage.setItem("selected_location", city+", "+ state +" "+ country);
     }
-
-    console.log("Local Date: " + local_date);
-
-    console.log("Country: " + country);
-    console.log("City: " + city);
-    console.log("State: " + state);
     
     if (state === "") {
         RequestAstronomy(country, city, "", "", local_date);
@@ -65,7 +64,6 @@ const LocationSelector = () => {
                     onChange={(e) => {
                         setCountryid(e.id);
                         setCountry(e.iso3);
-                        console.log(e);
                     }}
                     placeHolder="Select Country"
                 />
@@ -89,8 +87,6 @@ const LocationSelector = () => {
                         stateid={stateid}
                         onChange={(e) => {
                             setCity(e.name);
-                            console.log(e.longitude);
-                            console.log(e.latitude);
                         }}
                         placeHolder="Select City"
                     />

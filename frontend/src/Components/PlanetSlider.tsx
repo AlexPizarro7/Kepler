@@ -13,16 +13,11 @@ function convert24to12(time) {
 
 function calculateTimeScale(start, end) {
     var startHour = parseInt(start.substring(0,2));
-    console.log("Start Hour: " + startHour)
     var endHour = parseInt(end.substring(0,2));
-    console.log("End Hour: " + endHour)
     var betweenHour = endHour - startHour;
     var startPercent = Math.round(startHour / 24 * 100);
-    console.log("Start Percent: " + startPercent)
     var betweenPercent = (betweenHour / 24 * 100);
-    console.log("Between Percent: " + betweenPercent)
     var endPercent = 100 - betweenPercent - startPercent;
-    console.log("End Percent: " + endPercent)
 
     const result = [
             startPercent + "%",
