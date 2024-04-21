@@ -42,6 +42,7 @@ export default function RequestAstronomy(country, city, state, zip, date) {
           window.localStorage.setItem("NeptuneRise", result.NeptuneRise.substring(0, result.NeptuneRise.length - 1));
           window.localStorage.setItem("NeptuneSet", result.NeptuneSet.substring(0, result.NeptuneSet.length - 1));
           window.dispatchEvent(new Event('storage'))
+          window.location.reload();
           console.log(result); // This returns an object
           return result; // This returns undefined
         },

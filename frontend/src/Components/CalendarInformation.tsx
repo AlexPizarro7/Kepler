@@ -1,30 +1,22 @@
 import React from "react";
 import Planetslider from "./PlanetSlider";
 
-function convert24to12(time) {
-    var hour = parseInt(time.substring(0,2));
-    var minute = time.substring(3,5);
-    if (hour > 12) {
-        return (hour - 12) + ":" + minute + " PM";
-    }else{
-        return hour + ":" + minute + " AM";
-    }
-}
-
 const CalendarInformation = () => {
 
     if (window.localStorage.getItem("selected_date") === null) {
         const current_date = new Date();
-        const year = current_date.getUTCFullYear();
+        const year = current_date.getFullYear();
         const month = current_date.getUTCMonth()+1;
         if (month < 10) {
             var monthStr = "0" + month;
         }else{
             monthStr = month.toString();
         }
-        const day = current_date.getUTCDate();
+        const day = current_date.getDate();
         window.localStorage.setItem("selected_date", monthStr  +"-"+ day +"-"+ year);
     }
+
+    const selected_location = window.localStorage.getItem("selected_location");
 
     var sunrise = window.localStorage.getItem("selected_date")+"00:00:00";
     var sunset =  window.localStorage.getItem("selected_date")+"00:00:00";
@@ -97,7 +89,7 @@ const CalendarInformation = () => {
 
         <div className="ml-20 mr-20 bg-hero p-[20px] flex flex-col justify-center rounded">
 
-            <h2>Today</h2>
+            <h2>Today {selected_location}</h2>
             <h3>Mars: </h3>
             <Planetslider planet={"red"} start={marsrise} end={marsset}/>
             <h3>Sun: </h3>

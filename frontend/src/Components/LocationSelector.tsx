@@ -14,7 +14,7 @@ const queryCelestialEvents = (country, city, state, zip) => {
     if (local_date === null) {
         const current_date = new Date();
         const year = current_date.getUTCFullYear();
-        const month = current_date.getUTCMonth()+1;
+        const month = current_date.getUTCMonth();
         if (month < 10) {
             var monthStr = "0" + month;
         }else{
@@ -26,6 +26,12 @@ const queryCelestialEvents = (country, city, state, zip) => {
     }
 
     local_date = window.localStorage.getItem("selected_date");
+
+    if (state === "") {  
+        window.localStorage.setItem("selected_location", city+" "+ country);
+    } else {
+        window.localStorage.setItem("selected_location", city+", "+ state +" "+ country);
+    }
 
     console.log("Local Date: " + local_date);
 

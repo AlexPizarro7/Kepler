@@ -8,6 +8,10 @@ import moment from 'moment';
 
 const Calendar = () =>  {
 
+    if (window.localStorage.getItem("selected_date") === null) {
+        window.localStorage.setItem("selected_location", "");
+    }
+
     const sunrise = window.localStorage.getItem('Sunrise');
     const sunset = window.localStorage.getItem('Sunset');
     const moonrise = window.localStorage.getItem('Moonrise');
@@ -24,9 +28,6 @@ const Calendar = () =>  {
     const jupiterset = window.localStorage.getItem('JupiterSet');
     const saturnrise = window.localStorage.getItem('SaturnRise');
     const saturnset = window.localStorage.getItem('SaturnSet');
-
-    console.log("Sunrise: " + sunrise);
-    console.log("Sunset: " + sunset);
 
     const events = [
         {
