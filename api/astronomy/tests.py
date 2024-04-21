@@ -1,64 +1,57 @@
 from django.test import TestCase
-from .views import *
+from .views import (
+    calculate_celestial_body_rise_utc,
+    calculate_celestial_body_set_utc,
+    get_coordinates,
+    get_timezone,
+    convert_utc_to_local
+)
+from datetime import datetime
 
 
-class GeocodingLatLongTest(TestCase):
-    def test_print_lat_long(self):
-        # Test the function with a known city and country
-        city = "Molde"
-        country = "Norway"
-        subdivision = "Møre og Romsdal"
-        postal_code = "6400"
+class PlanetaryEventsTests(TestCase):
+    def test_jupiter_and_saturn_events(self):
+        # Define the location and current date
+        city = "Moscow"
+        country = "Russia"
+        today = datetime.today()
+        year, month, day = today.year, today.month, today.day
 
-        # Fetch the coordinates
-        locations = get_coordinates(city, country, subdivision, postal_code)
+        # Fetch coordinates for Moscow, Russia
+        locations = get_coordinates(city, country)
+        if not locations:
+            print("Failed to retrieve coordinates.")
+            return
+        # Assuming the first location is correct
+        selected_location = locations[0]
 
-        # Extract and print the latitude and longitude of the first location found
-        if locations:
-            first_location = locations[0]  # Get the first location object
-            latitude = first_location.latitude
-            longitude = first_location.longitude
+        # Get latitude and longitude from the location object
+        latitude = selected_location.latitude
+        longitude = selected_location.longitude
 
-            print(f"Latitude: {latitude}, Longitude: {longitude}")
-        else:
-            print("No locations found.")
+        # Calculate rise and set times in UTC
+        jupiter_rise_utc = calculate_celestial_body_rise_utc(
+            "Jupiter Barycenter", year, month, day, latitude, longitude)[0]
+        jupiter_set_utc = calculate_celestial_body_set_utc(
+            "Jupiter Barycenter", year, month, day, latitude, longitude)[0]
+        saturn_rise_utc = calculate_celestial_body_rise_utc(
+            "Saturn Barycenter", year, month, day, latitude, longitude)[0]
+        saturn_set_utc = calculate_celestial_body_set_utc(
+            "Saturn Barycenter", year, month, day, latitude, longitude)[0]
 
-    def test_lunar_eclipse_on_specific_date(self):
-        # This is where you define the date you want to test
-        year = 2024
-        month = 9
-        day = 18
+        # Convert UTC to local time
+        timezone_name = get_timezone(latitude, longitude)
+        jupiter_rise_local = convert_utc_to_local(
+            jupiter_rise_utc, timezone_name, year, month, day)
+        jupiter_set_local = convert_utc_to_local(
+            jupiter_set_utc, timezone_name, year, month, day)
+        saturn_rise_local = convert_utc_to_local(
+            saturn_rise_utc, timezone_name, year, month, day)
+        saturn_set_local = convert_utc_to_local(
+            saturn_set_utc, timezone_name, year, month, day)
 
-        # Calling the function that checks for lunar eclipses
-        check_if_lunar_eclipse(year, month, day)
-
-    def test_twilight_time(self):
-        # Location details
-        city = "Tyler"
-        state = "Texas"
-        country = "United States"
-        postal_code = "75701"
-
-        # Step 1: Retrieve coordinates
-        location_info = get_coordinates(
-            city, country, subdivision=state, postal_code=postal_code)
-        if location_info is None:
-            print("Failed to get coordinates.")
-        else:
-            # Assume the first result is the most relevant
-            latitude = location_info[0].latitude
-            longitude = location_info[0].longitude
-
-            # Step 2: Get timezone
-            time_zone_name = get_timezone(latitude, longitude)
-
-            # Step 3: Calculate astronomical twilight end time in UTC
-            twilight_end_utc = calculate_astronomical_twilight_end_utc(
-                2024, 4, 18, latitude, longitude)
-
-            # Step 4: Convert UTC time to local time in 12-hour AM/PM format
-            twilight_end_local = convert_utc_to_local(
-                twilight_end_utc, time_zone_name, 2024, 4, 18)
-            twilight_end_local_time_only = datetime.strptime(
-                twilight_end_local, '%Y-%m-%d %H:%M:%S').strftime('%I:%M %p')
-            print("Twilight ends at:", twilight_end_local_time_only)
+        # Print results in a simple format
+        print(f"Jupiter Rise (Moscow, Local Time): {jupiter_rise_local}")
+        print(f"Jupiter Set (Moscow, Local Time): {jupiter_set_local}")
+        print(f"Saturn Rise (Moscow, Local Time): {saturn_rise_local}")
+        print(f"Saturn Set (Moscow, Local Time): {saturn_set_local}")
