@@ -25,13 +25,13 @@ function Home() {
             </div>
             <div>
             </div>
-            <div className="bg-[linear-gradient(110deg,#000_0.6%,#000b3d)]"> 
+            <div className="bg-[linear-gradient(100deg,#000_0.6%,#000b3d)] pt-20 pb-20">
+                <FeatureSection />
+            </div>
+            <div className="bg-[linear-gradient(70deg,#000_0.6%,#000b3d)] "> 
                 <StarsTest />
             </div>
             <BackgroundBeamsDemo />
-            <div className="bg-[linear-gradient(70deg,#000_0.6%,#000b3d)] pt-20 pb-20">
-                <FeatureSection />
-            </div>
         </div>
     )
 }
