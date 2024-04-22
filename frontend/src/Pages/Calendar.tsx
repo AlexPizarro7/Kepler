@@ -31,12 +31,6 @@ const Calendar = () => {
 
     const passed_date = window.localStorage.getItem("selected_date");
 
-    function handler () {
-        this.setState({
-            reload: 'false'
-          })
-    }
-
     return (
         <div className="content-wrapper">
             <div className="">

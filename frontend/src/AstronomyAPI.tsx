@@ -25,7 +25,7 @@ export default async function RequestAstronomy(country:string, city:string, stat
       var url='http://localhost:8000/location-selector/'+country+'/'+city+'/'+state+'/'+zip+'/'+inc_date;
     }
   
-    if (window.sessionStorage.getItem(inc_date) === null && window.localStorage.getItem("newLocation") === "true"){
+    if (window.sessionStorage.getItem(inc_date) === null){
       await fetch(url)
         .then(response=>response.json())
         .then(
@@ -41,6 +41,7 @@ export default async function RequestAstronomy(country:string, city:string, stat
 
   }
 
-  window.localStorage.setItem("newLocation", "false");
+  await window.location.reload();
+  await window.localStorage.setItem("newLocation", "false");
 
 }

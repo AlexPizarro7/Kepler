@@ -6,8 +6,18 @@ import {
 } from "react-country-state-city";
 import "react-country-state-city/dist/react-country-state-city.css";
 import RequestAstronomy from "../AstronomyAPI";
+import DatePicker from "react-datepicker";
+import moment from "moment";
 
-const queryCelestialEvents = (country, city, state, zip) => {
+import "react-datepicker/dist/react-datepicker.css";
+
+
+const queryCelestialEvents = (country, city, state, zip, date) => {
+
+    if (date !== "") {
+        console.log("date: " + moment(date).format("MM-DD-YYYY"));
+        window.localStorage.setItem("selected_date", moment(date).format("MM-DD-YYYY"));
+    }
 
     var local_date = window.localStorage.getItem("selected_date");
 
@@ -55,6 +65,9 @@ const LocationSelector = () => {
     const [country, setCountry] = useState("");
     const [state, setState] = useState(""); 
     const [city, setCity] = useState("");
+    const [startDate, setStartDate] = useState(new Date());
+    const [formComplete, setFormComplete] = useState(false);
+    const [buttonText, setButtonText] = useState("Get Celestial Events");
 
     return (
         <form className="ml-20 mr-20 bg-gradient-to-r from-slate-900 to-slate-700 p-[20px] flex flex-col justify-center rounded">
@@ -87,12 +100,15 @@ const LocationSelector = () => {
                         stateid={stateid}
                         onChange={(e) => {
                             setCity(e.name);
+                            setFormComplete(true)
                         }}
                         placeHolder="Select City"
                     />
                 </div>
+                <label className="font-bold ml-10 mr-10">Date</label>
+                <DatePicker className="text-black ml-10" selected={startDate} onChange={(date) => setStartDate(date)} />
             </div>
-            <button type="button" onClick={()=>queryCelestialEvents(country,city,state,"")} className="bg-gray-900 text-white hover:bg-blue-900 text-xl font-bold p-4 rounded-lg mt-4">Get Celestial Events</button>
+            <button disabled={!formComplete} type="button" onClick={()=>{setButtonText("Loading...");queryCelestialEvents(country,city,state,"",startDate)}} className="bg-gray-900 text-white hover:bg-blue-900 text-xl font-bold p-4 rounded-lg mt-4">{buttonText}</button>
             <style>
                 {`
                     @media (max-width: 768px) {

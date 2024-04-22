@@ -51,7 +51,7 @@
 
 
 .planet {
-    background-color: brown;
+    background: radial-gradient(circle, rgba(121,9,9,100) 0%, rgba(0,0,0,1) 100%);
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
     z-index: 2;
     width: 50px;

@@ -9,7 +9,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
-    color:white;
+  color: white;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   margin-top: 80px;
@@ -25,44 +25,168 @@ body {
   padding-bottom: 100px;
 }
 
+.moon-full {
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  background-color: lightgrey;
+  position: relative;
+}
+
+.moon-new {
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  background-color: black;
+  position: relative;
+}
+
+.moon-waxing-crescent {
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  background-color: lightgrey;
+  position: relative;
+}
+
+.moon-waxing-crescent::after {
+  position: absolute;
+  content: ' ';
+  border-radius: 50%;
+  height: 200px;
+  width: 160px;
+  left: 0px;
+  background-color: black;
+}
+
+.moon-waning-gibbous {
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  background-color: black;
+  position: relative;
+}
+
+.moon-waning-gibbous::after {
+  position: absolute;
+  content: ' ';
+  border-radius: 50%;
+  height: 200px;
+  width: 160px;
+  left: 0px;
+  background-color: lightgray;
+}
+
+.moon-waning-crescent {
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  background-color: lightgrey;
+  position: relative;
+}
+
+.moon-waning-crescent::after {
+  position: absolute;
+  content: ' ';
+  border-radius: 50%;
+  height: 200px;
+  width: 160px;
+  left: 40px;
+  background-color: black;
+}
+
+.moon-waxing-gibbous {
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  background-color: black;
+  position: relative;
+}
+
+.moon-waxing-gibbous::after {
+  position: absolute;
+  content: ' ';
+  border-radius: 50%;
+  height: 200px;
+  width: 160px;
+  left: 40px;
+  background-color: lightgrey;
+}
+
+.moon-first-quarter {
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  background-color: black;
+  position: relative;
+}
+.moon-first-quarter::after {
+  position: absolute;
+  content: ' ';
+  border-radius: 0 10rem 10rem 0;
+  height: 200px;
+  width: 100px;
+  left: 100px;
+  background-color: lightgray
+}
+
+.moon-third-quarter {
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  background-color: lightgray;
+  position: relative;
+}
+.moon-third-quarter::after {
+  position: absolute;
+  content: ' ';
+  border-radius: 0 10rem 10rem 0;
+  height: 200px;
+  width: 100px;
+  left: 100px;
+  background-color: black;
+}
+
+
+
 h1 {
   font-size: 2em;
-  font-weight:bold;
+  font-weight: bold;
   margin-left: 20px;
   padding: 0;
   color: #F2EFEA;
-  margin-top:10px;
-  margin-bottom:10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 h2 {
   font-size: 1.5em;
-  font-weight:bold;
+  font-weight: bold;
   margin-left: 20px;
   padding: 0;
   color: #F2EFEA;
-  margin-top:10px;
-  margin-bottom:10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 h3 {
   font-size: 1.3em;
-  font-weight:bold;
+  font-weight: bold;
   margin-left: 20px;
   padding: 0;
   color: #F2EFEA;
-  margin-top:10px;
-  margin-bottom:10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 h4 {
   font-size: 1.2em;
-  font-weight:bold;
+  font-weight: bold;
   margin-left: 20px;
   padding: 0;
   color: #F2EFEA;
-  margin-top:10px;
-  margin-bottom:10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 ul {

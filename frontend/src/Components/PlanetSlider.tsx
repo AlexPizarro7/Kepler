@@ -33,11 +33,11 @@ function Planetslider({planet,start,end}) {
     return (
         <div className="planet-slider flex flex-row">
             <div className="visible-from" style={{width:calculateTimeScale(start,end)[0]}}/>
-            <div className="planet" style={{ backgroundColor:planet}}>
+            <div className="planet" style={{ background:"radial-gradient(circle, "+planet+" 0%, rgba(0,0,0,1) 100%)"}}>
                 <div className="time">{convert24to12(start)}</div>
             </div>
             <div className="visible" style={{width:calculateTimeScale(start,end)[1]}} />
-            <div className="planet" style={{ backgroundColor:planet}}>
+            <div className="planet" style={{ background:"radial-gradient(circle, "+planet+" 0%, rgba(0,0,0,1) 100%)"}}>
                 <div className="time">{convert24to12(end)}</div>
             </div>
             <div className="visible-to" style={{width:calculateTimeScale(start,end)[2]}}/>

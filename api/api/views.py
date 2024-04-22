@@ -20,43 +20,94 @@ def location_selector_city(request, country, city, selected_date):
         year = int(date[2])
 
         # Sunrise, sunsetm culimination, twilight end
-        sunrise_utc = calculate_celestial_body_rise_utc("Sun", year, month, day, latitude, longitude)[0]
-        sunset_utc = calculate_celestial_body_set_utc("Sun", year, month, day, latitude, longitude)[0]
+        result = calculate_celestial_body_rise_utc("Sun", year, month, day, latitude, longitude)
+        if result is None:
+            sunrise_utc = "Setting time not found."
+        else:
+            sunrise_utc = result[0]
+        result = calculate_celestial_body_set_utc("Sun", year, month, day, latitude, longitude)
+        if result is None:
+            sunset_utc = "Setting time not found."
+        else:
+            sunset_utc = result[0]
         culmination_utc = calculate_celestial_body_culmination_utc("Sun", latitude, longitude, year, month, day)
 
-        # Moonrise, moonset, moon culmination
-        moonrise_utc = calculate_celestial_body_rise_utc("Moon", year, month, day, latitude, longitude)[0]
-        moonset_utc = calculate_celestial_body_set_utc("Moon", year, month, day, latitude, longitude)[0]
-        moon_culmination_utc = calculate_celestial_body_culmination_utc("Moon", latitude, longitude, year, month, day)
-
         # Mercury rise, set, culmination
-        mercury_rise_utc = calculate_celestial_body_rise_utc("Mercury", year, month, day, latitude, longitude)[0]
-        mercury_set_utc = calculate_celestial_body_set_utc("Mercury", year, month, day, latitude, longitude)[0]
+        result = calculate_celestial_body_rise_utc("Mercury", year, month, day, latitude, longitude)
+        if result is None:
+            mercury_rise_utc = "Setting time not found."
+        else:
+            mercury_rise_utc = result[0]
+        result = calculate_celestial_body_set_utc("Mercury", year, month, day, latitude, longitude)
+        if result is None:
+            mercury_set_utc = "Rising time not found."
+        else:
+            mercury_set_utc = result[0]
         mercury_culmination_utc = calculate_celestial_body_culmination_utc("Mercury", latitude, longitude, year, month, day)
 
         # Venus rise, set, culmination
-        venus_rise_utc = calculate_celestial_body_rise_utc("Venus", year, month, day, latitude, longitude)[0]
-        venus_set_utc = calculate_celestial_body_set_utc("Venus", year, month, day, latitude, longitude)[0]
+        result = calculate_celestial_body_rise_utc("Venus", year, month, day, latitude, longitude)
+        if result is None:
+            venus_rise_utc = "Setting time not found."
+        else:
+            venus_rise_utc = result[0]
+        result = calculate_celestial_body_set_utc("Venus", year, month, day, latitude, longitude)
+        if result is None:
+            venus_set_utc = "Setting time not found."
+        else:
+            venus_set_utc = result[0]
         venus_culmination_utc = calculate_celestial_body_culmination_utc("Venus", latitude, longitude, year, month, day)
 
         # Mars rise, set, culmination
-        mars_rise_utc = calculate_celestial_body_rise_utc("Mars", year, month, day, latitude, longitude)[0]
-        mars_set_utc = calculate_celestial_body_set_utc("Mars", year, month, day, latitude, longitude)[0]
+        result = calculate_celestial_body_rise_utc("Mars", year, month, day, latitude, longitude)
+        if result is None:
+            mars_rise_utc = "Setting time not found."
+        else:
+            mars_rise_utc = result[0]
+        result = calculate_celestial_body_set_utc("Mars", year, month, day, latitude, longitude)
+        if result is None:
+            mars_set_utc = "Setting time not found."
+        else:
+            mars_set_utc = result[0]
         mars_culmination_utc = calculate_celestial_body_culmination_utc("Mars", latitude, longitude, year, month, day)
 
          # Neptune rise, set, culmination
-        neptune_rise_utc = calculate_celestial_body_rise_utc("Neptune barycenter", year, month, day, latitude, longitude)[0]
-        neptune_set_utc = calculate_celestial_body_set_utc("Neptune barycenter", year, month, day, latitude, longitude)[0]
+        result = calculate_celestial_body_rise_utc("Neptune barycenter", year, month, day, latitude, longitude)
+        if result is None:
+            neptune_rise_utc = "Setting time not found."
+        else:
+            neptune_rise_utc = result[0]
+        result = calculate_celestial_body_set_utc("Neptune barycenter", year, month, day, latitude, longitude)
+        if result is None:
+            neptune_set_utc = "Setting time not found."
+        else:
+            neptune_set_utc = result[0]
         neptune_culmination_utc = calculate_celestial_body_culmination_utc("Neptune barycenter", latitude, longitude, year, month, day)
         
         # Jupiter rise, set, culmination
-        jupiter_rise_utc = calculate_celestial_body_rise_utc("Jupiter barycenter", year, month, day, latitude, longitude)[0]
-        jupiter_set_utc = calculate_celestial_body_set_utc("Jupiter barycenter", year, month, day, latitude, longitude)[0]
+        result = calculate_celestial_body_rise_utc("Jupiter barycenter", year, month, day, latitude, longitude)
+        if result is None:
+            jupiter_rise_utc = "Setting time not found."
+        else:
+            jupiter_rise_utc = result[0]
+        result = calculate_celestial_body_set_utc("Jupiter barycenter", year, month, day, latitude, longitude)
+        if result is None:
+            jupiter_set_utc = "Setting time not found."
+        else:
+            jupiter_set_utc = result[0]
         jupiter_culmination_utc = calculate_celestial_body_culmination_utc("Jupiter barycenter", latitude, longitude, year, month, day)
 
         # Saturn rise, set, culmination
-        saturn_rise_utc = calculate_celestial_body_rise_utc("Saturn barycenter", year, month, day, latitude, longitude)[0]
-        saturn_set_utc = calculate_celestial_body_set_utc("Saturn barycenter", year, month, day, latitude, longitude)[0]
+        result = calculate_celestial_body_rise_utc("Saturn barycenter", year, month, day, latitude, longitude)
+        if result is None:
+            saturn_rise_utc = "Setting time not found."
+        else:
+            saturn_rise_utc = result[0]
+        result = calculate_celestial_body_set_utc("Saturn barycenter", year, month, day, latitude, longitude)
+        if result is None:
+            saturn_set_utc = "Setting time not found."
+        else:
+            saturn_set_utc = result[0]
         saturn_culmination_utc = calculate_celestial_body_culmination_utc("Saturn barycenter", latitude, longitude, year, month, day)
 
         timezone = get_timezone(latitude, longitude)
@@ -69,9 +120,6 @@ def location_selector_city(request, country, city, selected_date):
             "Sunrise": convert_utc_to_local(sunrise_utc, timezone, year, month, day),
             "Sunset": convert_utc_to_local(sunset_utc, timezone, year, month, day),
             "SunCulmination": convert_utc_to_local(culmination_utc, timezone, year, month, day),
-            "MoonRise": convert_utc_to_local(moonrise_utc, timezone, year, month, day),
-            "MoonSet": convert_utc_to_local(moonset_utc, timezone, year, month, day),
-            "MoonCulmination": convert_utc_to_local(moon_culmination_utc, timezone, year, month, day),
             "MercuryRise": convert_utc_to_local(mercury_rise_utc, timezone, year, month, day),
             "MercurySet": convert_utc_to_local(mercury_set_utc, timezone, year, month, day),
             "MercuryCulmination": convert_utc_to_local(mercury_culmination_utc, timezone, year, month, day),
@@ -115,43 +163,94 @@ def location_selector_state(request, country, city, state, selected_date):
         year = int(date[2])
 
         # Sunrise, sunsetm culimination, twilight end
-        sunrise_utc = calculate_celestial_body_rise_utc("Sun", year, month, day, latitude, longitude)[0]
-        sunset_utc = calculate_celestial_body_set_utc("Sun", year, month, day, latitude, longitude)[0]
+        result = calculate_celestial_body_rise_utc("Sun", year, month, day, latitude, longitude)
+        if result is None:
+            sunrise_utc = "Setting time not found."
+        else:
+            sunrise_utc = result[0]
+        result = calculate_celestial_body_set_utc("Sun", year, month, day, latitude, longitude)
+        if result is None:
+            sunset_utc = "Setting time not found."
+        else:
+            sunset_utc = result[0]
         culmination_utc = calculate_celestial_body_culmination_utc("Sun", latitude, longitude, year, month, day)
 
-        # Moonrise, moonset, moon culmination
-        moonrise_utc = calculate_celestial_body_rise_utc("Moon", year, month, day, latitude, longitude)[0]
-        moonset_utc = calculate_celestial_body_set_utc("Moon", year, month, day, latitude, longitude)[0]
-        moon_culmination_utc = calculate_celestial_body_culmination_utc("Moon", latitude, longitude, year, month, day)
-
         # Mercury rise, set, culmination
-        mercury_rise_utc = calculate_celestial_body_rise_utc("Mercury", year, month, day, latitude, longitude)[0]
-        mercury_set_utc = calculate_celestial_body_set_utc("Mercury", year, month, day, latitude, longitude)[0]
+        result = calculate_celestial_body_rise_utc("Mercury", year, month, day, latitude, longitude)
+        if result is None:
+            mercury_rise_utc = "Setting time not found."
+        else:
+            mercury_rise_utc = result[0]
+        result = calculate_celestial_body_set_utc("Mercury", year, month, day, latitude, longitude)
+        if result is None:
+            mercury_set_utc = "Rising time not found."
+        else:
+            mercury_set_utc = result[0]
         mercury_culmination_utc = calculate_celestial_body_culmination_utc("Mercury", latitude, longitude, year, month, day)
 
         # Venus rise, set, culmination
-        venus_rise_utc = calculate_celestial_body_rise_utc("Venus", year, month, day, latitude, longitude)[0]
-        venus_set_utc = calculate_celestial_body_set_utc("Venus", year, month, day, latitude, longitude)[0]
+        result = calculate_celestial_body_rise_utc("Venus", year, month, day, latitude, longitude)
+        if result is None:
+            venus_rise_utc = "Setting time not found."
+        else:
+            venus_rise_utc = result[0]
+        result = calculate_celestial_body_set_utc("Venus", year, month, day, latitude, longitude)
+        if result is None:
+            venus_set_utc = "Setting time not found."
+        else:
+            venus_set_utc = result[0]
         venus_culmination_utc = calculate_celestial_body_culmination_utc("Venus", latitude, longitude, year, month, day)
 
         # Mars rise, set, culmination
-        mars_rise_utc = calculate_celestial_body_rise_utc("Mars", year, month, day, latitude, longitude)[0]
-        mars_set_utc = calculate_celestial_body_set_utc("Mars", year, month, day, latitude, longitude)[0]
+        result = calculate_celestial_body_rise_utc("Mars", year, month, day, latitude, longitude)
+        if result is None:
+            mars_rise_utc = "Setting time not found."
+        else:
+            mars_rise_utc = result[0]
+        result = calculate_celestial_body_set_utc("Mars", year, month, day, latitude, longitude)
+        if result is None:
+            mars_set_utc = "Setting time not found."
+        else:
+            mars_set_utc = result[0]
         mars_culmination_utc = calculate_celestial_body_culmination_utc("Mars", latitude, longitude, year, month, day)
 
-        # Neptune rise, set, culmination
-        neptune_rise_utc = calculate_celestial_body_rise_utc("Neptune barycenter", year, month, day, latitude, longitude)[0]
-        neptune_set_utc = calculate_celestial_body_set_utc("Neptune barycenter", year, month, day, latitude, longitude)[0]
+         # Neptune rise, set, culmination
+        result = calculate_celestial_body_rise_utc("Neptune barycenter", year, month, day, latitude, longitude)
+        if result is None:
+            neptune_rise_utc = "Setting time not found."
+        else:
+            neptune_rise_utc = result[0]
+        result = calculate_celestial_body_set_utc("Neptune barycenter", year, month, day, latitude, longitude)
+        if result is None:
+            neptune_set_utc = "Setting time not found."
+        else:
+            neptune_set_utc = result[0]
         neptune_culmination_utc = calculate_celestial_body_culmination_utc("Neptune barycenter", latitude, longitude, year, month, day)
         
         # Jupiter rise, set, culmination
-        jupiter_rise_utc = calculate_celestial_body_rise_utc("Jupiter barycenter", year, month, day, latitude, longitude)[0]
-        jupiter_set_utc = calculate_celestial_body_set_utc("Jupiter barycenter", year, month, day, latitude, longitude)[0]
+        result = calculate_celestial_body_rise_utc("Jupiter barycenter", year, month, day, latitude, longitude)
+        if result is None:
+            jupiter_rise_utc = "Setting time not found."
+        else:
+            jupiter_rise_utc = result[0]
+        result = calculate_celestial_body_set_utc("Jupiter barycenter", year, month, day, latitude, longitude)
+        if result is None:
+            jupiter_set_utc = "Setting time not found."
+        else:
+            jupiter_set_utc = result[0]
         jupiter_culmination_utc = calculate_celestial_body_culmination_utc("Jupiter barycenter", latitude, longitude, year, month, day)
 
         # Saturn rise, set, culmination
-        saturn_rise_utc = calculate_celestial_body_rise_utc("Saturn barycenter", year, month, day, latitude, longitude)[0]
-        saturn_set_utc = calculate_celestial_body_set_utc("Saturn barycenter", year, month, day, latitude, longitude)[0]
+        result = calculate_celestial_body_rise_utc("Saturn barycenter", year, month, day, latitude, longitude)
+        if result is None:
+            saturn_rise_utc = "Setting time not found."
+        else:
+            saturn_rise_utc = result[0]
+        result = calculate_celestial_body_set_utc("Saturn barycenter", year, month, day, latitude, longitude)
+        if result is None:
+            saturn_set_utc = "Setting time not found."
+        else:
+            saturn_set_utc = result[0]
         saturn_culmination_utc = calculate_celestial_body_culmination_utc("Saturn barycenter", latitude, longitude, year, month, day)
 
         timezone = get_timezone(latitude, longitude)
@@ -164,9 +263,6 @@ def location_selector_state(request, country, city, state, selected_date):
             "Sunrise": convert_utc_to_local(sunrise_utc, timezone, year, month, day),
             "Sunset": convert_utc_to_local(sunset_utc, timezone, year, month, day),
             "SunCulmination": convert_utc_to_local(culmination_utc, timezone, year, month, day),
-            "MoonRise": convert_utc_to_local(moonrise_utc, timezone, year, month, day),
-            "MoonSet": convert_utc_to_local(moonset_utc, timezone, year, month, day),
-            "MoonCulmination": convert_utc_to_local(moon_culmination_utc, timezone, year, month, day),
             "MercuryRise": convert_utc_to_local(mercury_rise_utc, timezone, year, month, day),
             "MercurySet": convert_utc_to_local(mercury_set_utc, timezone, year, month, day),
             "MercuryCulmination": convert_utc_to_local(mercury_culmination_utc, timezone, year, month, day),
@@ -210,43 +306,94 @@ def location_selector_zip(request, country, city, state, zipcode, selected_date)
         year = int(date[2])
 
         # Sunrise, sunsetm culimination, twilight end
-        sunrise_utc = calculate_celestial_body_rise_utc("Sun", year, month, day, latitude, longitude)[0]
-        sunset_utc = calculate_celestial_body_set_utc("Sun", year, month, day, latitude, longitude)[0]
+        result = calculate_celestial_body_rise_utc("Sun", year, month, day, latitude, longitude)
+        if result is None:
+            sunrise_utc = "Setting time not found."
+        else:
+            sunrise_utc = result[0]
+        result = calculate_celestial_body_set_utc("Sun", year, month, day, latitude, longitude)
+        if result is None:
+            sunset_utc = "Setting time not found."
+        else:
+            sunset_utc = result[0]
         culmination_utc = calculate_celestial_body_culmination_utc("Sun", latitude, longitude, year, month, day)
 
-        # Moonrise, moonset, moon culmination
-        moonrise_utc = calculate_celestial_body_rise_utc("Moon", year, month, day, latitude, longitude)[0]
-        moonset_utc = calculate_celestial_body_set_utc("Moon", year, month, day, latitude, longitude)[0]
-        moon_culmination_utc = calculate_celestial_body_culmination_utc("Moon", latitude, longitude, year, month, day)
-
         # Mercury rise, set, culmination
-        mercury_rise_utc = calculate_celestial_body_rise_utc("Mercury", year, month, day, latitude, longitude)[0]
-        mercury_set_utc = calculate_celestial_body_set_utc("Mercury", year, month, day, latitude, longitude)[0]
+        result = calculate_celestial_body_rise_utc("Mercury", year, month, day, latitude, longitude)
+        if result is None:
+            mercury_rise_utc = "Setting time not found."
+        else:
+            mercury_rise_utc = result[0]
+        result = calculate_celestial_body_set_utc("Mercury", year, month, day, latitude, longitude)
+        if result is None:
+            mercury_set_utc = "Rising time not found."
+        else:
+            mercury_set_utc = result[0]
         mercury_culmination_utc = calculate_celestial_body_culmination_utc("Mercury", latitude, longitude, year, month, day)
 
         # Venus rise, set, culmination
-        venus_rise_utc = calculate_celestial_body_rise_utc("Venus", year, month, day, latitude, longitude)[0]
-        venus_set_utc = calculate_celestial_body_set_utc("Venus", year, month, day, latitude, longitude)[0]
+        result = calculate_celestial_body_rise_utc("Venus", year, month, day, latitude, longitude)
+        if result is None:
+            venus_rise_utc = "Setting time not found."
+        else:
+            venus_rise_utc = result[0]
+        result = calculate_celestial_body_set_utc("Venus", year, month, day, latitude, longitude)
+        if result is None:
+            venus_set_utc = "Setting time not found."
+        else:
+            venus_set_utc = result[0]
         venus_culmination_utc = calculate_celestial_body_culmination_utc("Venus", latitude, longitude, year, month, day)
 
         # Mars rise, set, culmination
-        mars_rise_utc = calculate_celestial_body_rise_utc("Mars", year, month, day, latitude, longitude)[0]
-        mars_set_utc = calculate_celestial_body_set_utc("Mars", year, month, day, latitude, longitude)[0]
+        result = calculate_celestial_body_rise_utc("Mars", year, month, day, latitude, longitude)
+        if result is None:
+            mars_rise_utc = "Setting time not found."
+        else:
+            mars_rise_utc = result[0]
+        result = calculate_celestial_body_set_utc("Mars", year, month, day, latitude, longitude)
+        if result is None:
+            mars_set_utc = "Setting time not found."
+        else:
+            mars_set_utc = result[0]
         mars_culmination_utc = calculate_celestial_body_culmination_utc("Mars", latitude, longitude, year, month, day)
-        
-        # Neptune rise, set, culmination
-        neptune_rise_utc = calculate_celestial_body_rise_utc("Neptune barycenter", year, month, day, latitude, longitude)[0]
-        neptune_set_utc = calculate_celestial_body_set_utc("Neptune barycenter", year, month, day, latitude, longitude)[0]
+
+         # Neptune rise, set, culmination
+        result = calculate_celestial_body_rise_utc("Neptune barycenter", year, month, day, latitude, longitude)
+        if result is None:
+            neptune_rise_utc = "Setting time not found."
+        else:
+            neptune_rise_utc = result[0]
+        result = calculate_celestial_body_set_utc("Neptune barycenter", year, month, day, latitude, longitude)
+        if result is None:
+            neptune_set_utc = "Setting time not found."
+        else:
+            neptune_set_utc = result[0]
         neptune_culmination_utc = calculate_celestial_body_culmination_utc("Neptune barycenter", latitude, longitude, year, month, day)
         
         # Jupiter rise, set, culmination
-        jupiter_rise_utc = calculate_celestial_body_rise_utc("Jupiter barycenter", year, month, day, latitude, longitude)[0]
-        jupiter_set_utc = calculate_celestial_body_set_utc("Jupiter barycenter", year, month, day, latitude, longitude)[0]
+        result = calculate_celestial_body_rise_utc("Jupiter barycenter", year, month, day, latitude, longitude)
+        if result is None:
+            jupiter_rise_utc = "Setting time not found."
+        else:
+            jupiter_rise_utc = result[0]
+        result = calculate_celestial_body_set_utc("Jupiter barycenter", year, month, day, latitude, longitude)
+        if result is None:
+            jupiter_set_utc = "Setting time not found."
+        else:
+            jupiter_set_utc = result[0]
         jupiter_culmination_utc = calculate_celestial_body_culmination_utc("Jupiter barycenter", latitude, longitude, year, month, day)
 
         # Saturn rise, set, culmination
-        saturn_rise_utc = calculate_celestial_body_rise_utc("Saturn barycenter", year, month, day, latitude, longitude)[0]
-        saturn_set_utc = calculate_celestial_body_set_utc("Saturn barycenter", year, month, day, latitude, longitude)[0]
+        result = calculate_celestial_body_rise_utc("Saturn barycenter", year, month, day, latitude, longitude)
+        if result is None:
+            saturn_rise_utc = "Setting time not found."
+        else:
+            saturn_rise_utc = result[0]
+        result = calculate_celestial_body_set_utc("Saturn barycenter", year, month, day, latitude, longitude)
+        if result is None:
+            saturn_set_utc = "Setting time not found."
+        else:
+            saturn_set_utc = result[0]
         saturn_culmination_utc = calculate_celestial_body_culmination_utc("Saturn barycenter", latitude, longitude, year, month, day)
 
         timezone = get_timezone(latitude, longitude)
@@ -259,9 +406,6 @@ def location_selector_zip(request, country, city, state, zipcode, selected_date)
             "Sunrise": convert_utc_to_local(sunrise_utc, timezone, year, month, day),
             "Sunset": convert_utc_to_local(sunset_utc, timezone, year, month, day),
             "SunCulmination": convert_utc_to_local(culmination_utc, timezone, year, month, day),
-            "MoonRise": convert_utc_to_local(moonrise_utc, timezone, year, month, day),
-            "MoonSet": convert_utc_to_local(moonset_utc, timezone, year, month, day),
-            "MoonCulmination": convert_utc_to_local(moon_culmination_utc, timezone, year, month, day),
             "MercuryRise": convert_utc_to_local(mercury_rise_utc, timezone, year, month, day),
             "MercurySet": convert_utc_to_local(mercury_set_utc, timezone, year, month, day),
             "MercuryCulmination": convert_utc_to_local(mercury_culmination_utc, timezone, year, month, day),
