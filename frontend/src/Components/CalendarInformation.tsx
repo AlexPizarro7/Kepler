@@ -37,8 +37,6 @@ const CalendarInformation = ({ date }) => {
         var mercuryset = window.localStorage.getItem("selected_date") + "T00:00:00";
         var venusrise = window.localStorage.getItem("selected_date") + "T00:00:00";
         var venusset = window.localStorage.getItem("selected_date") + "T00:00:00";
-        var neptunerise = window.localStorage.getItem("selected_date") + "T00:00:00";
-        var neptuneset = window.localStorage.getItem("selected_date") + "T00:00:00";
         var jupiterrise = window.localStorage.getItem("selected_date") + "T00:00:00";
         var jupiterset = window.localStorage.getItem("selected_date") + "T00:00:00";
         var saturnrise = window.localStorage.getItem("selected_date") + "T00:00:00";
@@ -54,8 +52,6 @@ const CalendarInformation = ({ date }) => {
         mercuryset = resultObject.MercurySet.substring(11, resultObject.MercurySet.length - 3);
         venusrise = resultObject.VenusRise.substring(11, resultObject.VenusRise.length - 3);
         venusset = resultObject.VenusSet.substring(11, resultObject.VenusSet.length - 3);
-        neptunerise = resultObject.NeptuneRise.substring(11, resultObject.NeptuneRise.length - 3);
-        neptuneset = resultObject.NeptuneSet.substring(11, resultObject.NeptuneSet.length - 3);
         jupiterrise = resultObject.JupiterRise.substring(11, resultObject.JupiterRise.length - 3);
         jupiterset = resultObject.JupiterSet.substring(11, resultObject.JupiterSet.length - 3);
         saturnrise = resultObject.SaturnRise.substring(11, resultObject.SaturnRise.length - 3);
@@ -99,8 +95,6 @@ const CalendarInformation = ({ date }) => {
                 <Planetslider planet={"#708090"} start={mercuryrise} end={mercuryset} />
                 <h3>Venus: </h3>
                 <Planetslider planet={"#F2F0DF"} start={venusrise} end={venusset} />
-                <h3>Neptune: </h3>
-                <Planetslider planet={"blue"} start={neptunerise} end={neptuneset} />
                 <h3>Jupiter: </h3>
                 <Planetslider planet={"brown"} start={jupiterrise} end={jupiterset} />
                 <h3>Saturn: </h3>

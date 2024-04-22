@@ -70,19 +70,6 @@ def location_selector_city(request, country, city, selected_date):
         else:
             mars_set_utc = result[0]
         mars_culmination_utc = calculate_celestial_body_culmination_utc("Mars", latitude, longitude, year, month, day)
-
-         # Neptune rise, set, culmination
-        result = calculate_celestial_body_rise_utc("Neptune barycenter", year, month, day, latitude, longitude)
-        if result is None:
-            neptune_rise_utc = "Setting time not found."
-        else:
-            neptune_rise_utc = result[0]
-        result = calculate_celestial_body_set_utc("Neptune barycenter", year, month, day, latitude, longitude)
-        if result is None:
-            neptune_set_utc = "Setting time not found."
-        else:
-            neptune_set_utc = result[0]
-        neptune_culmination_utc = calculate_celestial_body_culmination_utc("Neptune barycenter", latitude, longitude, year, month, day)
         
         # Jupiter rise, set, culmination
         result = calculate_celestial_body_rise_utc("Jupiter barycenter", year, month, day, latitude, longitude)
@@ -134,10 +121,7 @@ def location_selector_city(request, country, city, selected_date):
             "JupiterCulmination": convert_utc_to_local(jupiter_culmination_utc, timezone, year, month, day),
             "SaturnRise": convert_utc_to_local(saturn_rise_utc, timezone, year, month, day),
             "SaturnSet": convert_utc_to_local(saturn_set_utc, timezone, year, month, day),
-            "SaturnCulmination": convert_utc_to_local(saturn_culmination_utc, timezone, year, month, day),
-            "NeptuneRise": convert_utc_to_local(neptune_rise_utc, timezone, year, month, day),
-            "NeptuneSet": convert_utc_to_local(neptune_set_utc, timezone, year, month, day),
-            "NeptuneCulmination": convert_utc_to_local(neptune_culmination_utc, timezone, year, month, day)
+            "SaturnCulmination": convert_utc_to_local(saturn_culmination_utc, timezone, year, month, day)
         }
     else:
         location = {
@@ -213,19 +197,6 @@ def location_selector_state(request, country, city, state, selected_date):
         else:
             mars_set_utc = result[0]
         mars_culmination_utc = calculate_celestial_body_culmination_utc("Mars", latitude, longitude, year, month, day)
-
-         # Neptune rise, set, culmination
-        result = calculate_celestial_body_rise_utc("Neptune barycenter", year, month, day, latitude, longitude)
-        if result is None:
-            neptune_rise_utc = "Setting time not found."
-        else:
-            neptune_rise_utc = result[0]
-        result = calculate_celestial_body_set_utc("Neptune barycenter", year, month, day, latitude, longitude)
-        if result is None:
-            neptune_set_utc = "Setting time not found."
-        else:
-            neptune_set_utc = result[0]
-        neptune_culmination_utc = calculate_celestial_body_culmination_utc("Neptune barycenter", latitude, longitude, year, month, day)
         
         # Jupiter rise, set, culmination
         result = calculate_celestial_body_rise_utc("Jupiter barycenter", year, month, day, latitude, longitude)
@@ -277,10 +248,7 @@ def location_selector_state(request, country, city, state, selected_date):
             "JupiterCulmination": convert_utc_to_local(jupiter_culmination_utc, timezone, year, month, day),
             "SaturnRise": convert_utc_to_local(saturn_rise_utc, timezone, year, month, day),
             "SaturnSet": convert_utc_to_local(saturn_set_utc, timezone, year, month, day),
-            "SaturnCulmination": convert_utc_to_local(saturn_culmination_utc, timezone, year, month, day),
-            "NeptuneRise": convert_utc_to_local(neptune_rise_utc, timezone, year, month, day),
-            "NeptuneSet": convert_utc_to_local(neptune_set_utc, timezone, year, month, day),
-            "NeptuneCulmination": convert_utc_to_local(neptune_culmination_utc, timezone, year, month, day)
+            "SaturnCulmination": convert_utc_to_local(saturn_culmination_utc, timezone, year, month, day)
         }
     else:
         location = {
@@ -356,19 +324,6 @@ def location_selector_zip(request, country, city, state, zipcode, selected_date)
         else:
             mars_set_utc = result[0]
         mars_culmination_utc = calculate_celestial_body_culmination_utc("Mars", latitude, longitude, year, month, day)
-
-         # Neptune rise, set, culmination
-        result = calculate_celestial_body_rise_utc("Neptune barycenter", year, month, day, latitude, longitude)
-        if result is None:
-            neptune_rise_utc = "Setting time not found."
-        else:
-            neptune_rise_utc = result[0]
-        result = calculate_celestial_body_set_utc("Neptune barycenter", year, month, day, latitude, longitude)
-        if result is None:
-            neptune_set_utc = "Setting time not found."
-        else:
-            neptune_set_utc = result[0]
-        neptune_culmination_utc = calculate_celestial_body_culmination_utc("Neptune barycenter", latitude, longitude, year, month, day)
         
         # Jupiter rise, set, culmination
         result = calculate_celestial_body_rise_utc("Jupiter barycenter", year, month, day, latitude, longitude)
@@ -421,9 +376,6 @@ def location_selector_zip(request, country, city, state, zipcode, selected_date)
             "SaturnRise": convert_utc_to_local(saturn_rise_utc, timezone, year, month, day),
             "SaturnSet": convert_utc_to_local(saturn_set_utc, timezone, year, month, day),
             "SaturnCulmination": convert_utc_to_local(saturn_culmination_utc, timezone, year, month, day),
-            "NeptuneRise": convert_utc_to_local(neptune_rise_utc, timezone, year, month, day),
-            "NeptuneSet": convert_utc_to_local(neptune_set_utc, timezone, year, month, day),
-            "NeptuneCulmination": convert_utc_to_local(neptune_culmination_utc, timezone, year, month, day)
         }
     else:
         location = {
