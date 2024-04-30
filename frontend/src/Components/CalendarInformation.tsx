@@ -1,4 +1,4 @@
-import React from "react";
+import React , { useState} from "react";
 import Planetslider from "./PlanetSlider";
 import { JsonParserRetriever } from "../utils/jsonParser";
 
@@ -26,7 +26,6 @@ const CalendarInformation = ({ date }) => {
     }
 
     const selected_location = window.localStorage.getItem("selected_location");
-    console.log(selected_date);
 
     if (window.sessionStorage.getItem(selected_date) == null) {
         var sunrise = window.localStorage.getItem("selected_date") + "T00:00:00";
@@ -43,6 +42,7 @@ const CalendarInformation = ({ date }) => {
         var saturnset = window.localStorage.getItem("selected_date") + "T00:00:00";
         var moonphase = "New Moon";
     } else {
+        try{
         const resultObject = JsonParserRetriever(selected_date);
         sunrise = resultObject.Sunrise.substring(11, resultObject.Sunrise.length - 3);
         sunset = resultObject.Sunset.substring(11, resultObject.Sunset.length - 3);
@@ -57,10 +57,23 @@ const CalendarInformation = ({ date }) => {
         saturnrise = resultObject.SaturnRise.substring(11, resultObject.SaturnRise.length - 3);
         saturnset = resultObject.SaturnSet.substring(11, resultObject.SaturnSet.length - 3);
         moonphase = resultObject.MoonPhase;
+        }catch (e){
+            console.log(e);
+            var sunrise = window.localStorage.getItem("selected_date") + "T00:00:00";
+            var sunset = window.localStorage.getItem("selected_date") + "T00:00:00";
+            var marsrise = window.localStorage.getItem("selected_date") + "T00:00:00";
+            var marsset = window.localStorage.getItem("selected_date") + "T00:00:00"
+            var mercuryrise = window.localStorage.getItem("selected_date") + "T00:00:00";
+            var mercuryset = window.localStorage.getItem("selected_date") + "T00:00:00";
+            var venusrise = window.localStorage.getItem("selected_date") + "T00:00:00";
+            var venusset = window.localStorage.getItem("selected_date") + "T00:00:00";
+            var jupiterrise = window.localStorage.getItem("selected_date") + "T00:00:00";
+            var jupiterset = window.localStorage.getItem("selected_date") + "T00:00:00";
+            var saturnrise = window.localStorage.getItem("selected_date") + "T00:00:00";
+            var saturnset = window.localStorage.getItem("selected_date") + "T00:00:00";
+            var moonphase = "New Moon";
+        }
     }
-
-    console.log("sunrise"+sunrise);
-    console.log("sunset"+sunset);
 
     if(moonphase === "New Moon") {
         moonphase = "moon-new";
@@ -74,7 +87,7 @@ const CalendarInformation = ({ date }) => {
         moonphase = "moon-full";
     }else if (moonphase === "Waning Gibbous") {
         moonphase = "moon-waning-gibbous";
-    }else if (moonphase === "Third Quarter") {
+    }else if (moonphase === "Last Quarter") {
         moonphase = "moon-third-quarter";
     }else if (moonphase === "Waning Crescent") {
         moonphase = "moon-waning-crescent";
