@@ -60,11 +60,11 @@ You can also use the docker desktop interface to access the terminal visually.
 
 - In order to test the functions only, do `docker-compose exec api python manage.py test` if doing on command prompt on VS Code. If you are doing it on Docker directly, then do `python manage.py test`
 
--If you are going to add new libraries, don't do it on the computer, do it on the virtual machine such as under 'Exec' in the Docker app, and be sure to update the requirements.txt file. Make sure it matches the machine matches the local, and it should after running the command. 
+- If you are going to add new libraries, don't do it on the computer, do it on the virtual machine such as under 'Exec' in the Docker app, and be sure to update the requirements.txt file. Make sure it matches the machine matches the local, and it should after running the command. 
 
--To install library, I updated then built the virtual machine, then I used the exec command prompt in the docker app to use pip install then to update the requirements file. Then I ran to install the requirements on my local command prompt to make sure that's installed locally on my virtual environment tho not necessary
+- To install library, I updated then built the virtual machine, then I used the exec command prompt in the docker app to use pip install then to update the requirements file. Then I ran to install the requirements on my local command prompt to make sure that's installed locally on my virtual environment tho not necessary
 
--To close down the servers whenever you are done `docker-compose down`
+- To close down the servers whenever you are done `docker-compose down`
 
 
 
