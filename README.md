@@ -1,21 +1,30 @@
 # Kepler - Astronomy Software
 
 ## Overview
-Kepler is a desktop-based application designed for amateur astronomy enthusiasts. Written in Python, Kepler aims to be an informative and educational tool, offering users detailed information about planets, stars, and other celestial objects. 
+Kepler is a desktop-based application designed for amateur astronomy enthusiasts. Written in Python, Kepler aims to be an informative and educational tool, offering users detailed information about planets, stars, and other celestial objects in the context of a calendar for effective organization and planning. 
 
-## Features (Planned/In Development)
-- [More features to be added]
+## Features
+- **Celestial Event Calendar**: View a month-long calendar showing the rise and set times of the sun, moon, and planets (Mercury, Venus, Mars, Jupiter, Saturn) based on a chosen date and location.
+- **Visibility Insights**: Determine which celestial bodies will be visible in the night sky on any given night, aiding in the planning of stargazing sessions.
+- **Appealing Calendar Interface**: Generate a dynamic web-based calendar interface showing the position of celestial objects relative to your location and time of observation.
+- **Location-based Predictions**: Enter any global location to receive accurate predictions of celestial events visible from that spot.
+- **Event Notifications**: Set alerts for upcoming celestial events like lunar eclipses
 
 ## Meet Our Team
--
+- Alex Pizarro-Solis
+- Joshua Duda 
+- Andrew Alvarez
+- Benjamin Garrett
+- Eduardo Mara
+- Jackson Baggett
 
-## Notes for Developers
+## Python Notes for Developers
 - This project was developed and tested with a Python Virtual Environment: 3.12.0 ('.venv': venv)
 - Command to install a library: `pip install library-name`
 - Command to generate or update the requirements.txt file: `pip freeze > requirements.txt`
 - Command to install the dependencies of the requirements.txt file: `pip install -r requirements.txt`
 
-## Dockerization
+## What To Know About Dockerization
 We like Docker because it removes your local machine from the equation. Run everything in their own virtual environments the same way we would deploy to production!
 
 Be sure to install [Docker Desktop](https://www.docker.com/products/docker-desktop/)
@@ -40,27 +49,16 @@ You can also use the docker desktop interface to access the terminal visually.
 - To populate the DB
 `docker-compose exec api python manage.py migrate`
 
-## Access the DB
-To view the tables esc... you can open up the console by typing the following in your terminal
-`docker-compose exec db psql -U postgres -d postgres`
-
-### Basic Postgres
-
-- `\dt` displays tables
-
-- Normal SQL statements should work as expected
-
-to get out of a query type: `:q`
-
-
-### Alex Notes 
+### Guide On Executing and Testing the Software 
 - Make sure you have Docker open in the background
 
 - Build the application/images, adds code onto the virtual machine and components `docker-compose build` basically updates the virtual machine 
 
 - Starts the containers on your machine `docker-compose up -d` database, API, web server. Basically executes the virtual machine. 
 
-- In order to test the functions only, do `docker-compose exec api python manage.py test` if doing on command prompt. If you are doing it on Docker directly, then do `python manage.py test`
+- In order to see the complete software with the web interface, go to ` localhost:3000` on your browser.
+
+- In order to test the functions only, do `docker-compose exec api python manage.py test` if doing on command prompt on VS Code. If you are doing it on Docker directly, then do `python manage.py test`
 
 -If you are going to add new libraries, don't do it on the computer, do it on the virtual machine such as under 'Exec' in the Docker app, and be sure to update the requirements.txt file. Make sure it matches the machine matches the local, and it should after running the command. 
 
