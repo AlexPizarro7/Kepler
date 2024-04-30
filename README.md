@@ -33,6 +33,8 @@ To build the architecture to your machine run `docker-compose build`
 
 And to run the application simply run `docker-compose up` add the ` -d` option to run the server in the background.
 
+To view the page navigate to localhost:3000 or 127.0.0.1
+
 On first creation be sure to run `docker-compose exec api python manage.py migrate` to build the DB tables.
 
 After first launch you will then have to run the proper django commands to update the DB if you are adding tables esc...
